@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+
+class DigitalReportScreen extends StatelessWidget {
+  const DigitalReportScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final reports = [
+      {'name': 'CBC', 'date': '12 Nov 2025', 'status': 'Available'},
+      {'name': 'Lipid Profile', 'date': '08 Nov 2025', 'status': 'Pending'},
+      {'name': 'Thyroid Profile', 'date': '02 Nov 2025', 'status': 'Available'},
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Digital Reports')),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: reports.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final r = reports[index];
+          final available = r['status'] == 'Available';
+          return Material(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(12),
+            child: ListTile(
+              title: Text(r['name']!),
+              subtitle: Text('${r['date']}  •  ${r['status']}'),
+              trailing: Wrap(
+                spacing: 8,
+                children: [
+                  if (available)
+                    IconButton(
+                      tooltip: 'View Report',
+                      icon: const Icon(Icons.picture_as_pdf_outlined),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening PDF...')));
+                      },
+                    ),
+                  if (available)
+                    IconButton(
+                      tooltip: 'Download PDF',
+                      icon: const Icon(Icons.download_outlined),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Downloading...')));
+                      },
+                    ),
+                  IconButton(
+                    tooltip: 'Share with Doctor',
+                    icon: const Icon(Icons.share_outlined),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sharing...')));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
