@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../../doctor/presentation/views/cart_scope.dart';
+import '../../../doctor/presentation/views/cart_screen.dart';
 import 'medicine_models.dart';
-import 'cart_scope.dart';
-import 'cart_screen.dart';
 
 class MedicineDetailsScreen extends StatefulWidget {
   final Medicine medicine;
@@ -33,9 +34,13 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            Text(m.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+            Text(m.name,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
             const SizedBox(height: 4),
-            Text(m.brand, style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color)),
+            Text(m.brand,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodySmall?.color)),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -47,15 +52,19 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
             const SizedBox(height: 8),
             Row(
               children: [
-                Text('\$${m.price.toStringAsFixed(2)}', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                Text('\$${m.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.bold)),
                 const SizedBox(width: 12),
-                Icon(m.inStock ? Icons.check_circle : Icons.cancel, color: m.inStock ? Colors.green : Colors.red),
+                Icon(m.inStock ? Icons.check_circle : Icons.cancel,
+                    color: m.inStock ? Colors.green : Colors.red),
                 const SizedBox(width: 4),
                 Text(m.inStock ? 'In stock' : 'Out of stock'),
               ],
             ),
             const SizedBox(height: 12),
-            const Text('Description', style: TextStyle(fontWeight: FontWeight.w600)),
+            const Text('Description',
+                style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 6),
             Text(m.description),
             const SizedBox(height: 16),
@@ -69,10 +78,13 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () => setState(() => qty = qty > 1 ? qty - 1 : 1),
+                        onPressed: () =>
+                            setState(() => qty = qty > 1 ? qty - 1 : 1),
                         icon: const Icon(Icons.remove),
                       ),
-                      Text('$qty', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      Text('$qty',
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600)),
                       IconButton(
                         onPressed: () => setState(() => qty += 1),
                         icon: const Icon(Icons.add),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'medicine_screen.dart';
+
+import '../../../medicine/presentation/views/medicine_screen.dart';
 
 class OrderConfirmationScreen extends StatelessWidget {
   final String orderId;
   final double total;
-  const OrderConfirmationScreen({super.key, required this.orderId, required this.total});
+  const OrderConfirmationScreen(
+      {super.key, required this.orderId, required this.total});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,8 @@ class OrderConfirmationScreen extends StatelessWidget {
           children: [
             const Icon(Icons.check_circle, color: Colors.green, size: 84),
             const SizedBox(height: 12),
-            const Text('Your order has been placed!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+            const Text('Your order has been placed!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
             Text('Order ID: #$orderId'),
             const SizedBox(height: 4),

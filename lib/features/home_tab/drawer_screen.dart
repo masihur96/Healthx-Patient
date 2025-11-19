@@ -8,6 +8,7 @@ import 'package:healthx_patient/features/auth/presentation/views/help_support_sc
 import 'package:healthx_patient/features/auth/presentation/views/login_screen.dart';
 import 'package:healthx_patient/features/auth/presentation/views/privacy_policy_screen.dart';
 import 'package:healthx_patient/features/auth/presentation/views/terms_condition_screen.dart';
+import 'package:healthx_patient/features/doctor/presentation/views/doctor_screen.dart';
 import 'package:healthx_patient/features/home_tab/bottom_nav_screen.dart';
 import 'package:healthx_patient/features/home_tab/doctor_setting_screen.dart';
 import 'package:healthx_patient/features/medicine/presentation/views/medicine_screen.dart';
@@ -104,7 +105,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                         height: screenSize(context, .05),
                       ),
                       Text(
-                        "${authVM?.name ?? ""}",
+                        authVM?.name ?? "",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -135,13 +136,13 @@ class _DrawerScreenState extends State<DrawerScreen>
                         name: "Doctor Consultation",
                         onTap: () async {
                           HapticFeedback.selectionClick();
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (_) => PatientScreen(
-                          //       isForm: true,
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => DoctorScreen(
+                                isForm: true,
+                              ),
+                            ),
+                          );
                         },
                       ),
                       menuBtn(

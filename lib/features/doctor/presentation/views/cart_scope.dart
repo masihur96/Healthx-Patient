@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'medicine_models.dart';
+
+import '../../../medicine/presentation/views/medicine_models.dart';
 
 class CartScope extends InheritedNotifier<CartState> {
-  const CartScope({super.key, required CartState notifier, required Widget child})
+  const CartScope(
+      {super.key, required CartState notifier, required Widget child})
       : super(notifier: notifier, child: child);
 
   static CartState of(BuildContext context) {

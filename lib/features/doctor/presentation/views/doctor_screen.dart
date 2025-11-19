@@ -6,7 +6,8 @@ import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 
 class DoctorScreen extends StatefulWidget {
-  const DoctorScreen({super.key});
+  final bool isForm;
+  const DoctorScreen({super.key, required this.isForm});
 
   @override
   State<DoctorScreen> createState() => _DoctorScreenState();
@@ -85,83 +86,90 @@ class _DoctorScreenState extends State<DoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70),
-          child: Row(
-            children: [
-              Text(
-                'Find a Doctor',
-                style: TextStyle(
-                    fontSize: screenSize(context, .05),
-                    fontWeight: FontWeight.w600),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: _openFiltersSheet,
-                icon: const Icon(Icons.tune_rounded),
-              ),
-              Builder(
-                builder: (ctx) => GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Icon(
-                      Icons.menu,
-                      size: screenSize(context, .08),
-                    ),
-                  ),
-                  onTap: () {
-                    z.toggle?.call();
-                    HapticFeedback.selectionClick();
-                  },
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                widget.isForm
+                    ? IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back_ios_outlined))
+                    : SizedBox(),
+                Text(
+                  'Find a Doctor',
+                  style: TextStyle(
+                      fontSize: screenSize(context, .05),
+                      fontWeight: FontWeight.w600),
                 ),
-              ),
-              const SizedBox(width: 8),
-            ],
-          )),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 12,
+                Spacer(),
+                IconButton(
+                  onPressed: _openFiltersSheet,
+                  icon: const Icon(Icons.tune_rounded),
+                ),
+                Builder(
+                  builder: (ctx) => GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Icon(
+                        Icons.menu,
+                        size: screenSize(context, .08),
+                      ),
+                    ),
+                    onTap: () {
+                      z.toggle?.call();
+                      HapticFeedback.selectionClick();
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
-            child: _SearchBar(
-              controller: _searchCtrl,
-              onChanged: (_) => setState(() {}),
-            ),
-          ),
-          _QuickFilters(
-            specialties: _specialties,
-            selectedSpecialty: _selectedSpecialty,
-            onSpecialtyChanged: (v) => setState(() => _selectedSpecialty = v),
-            availability: _selectedAvailability,
-            onAvailabilityChanged: (v) =>
-                setState(() => _selectedAvailability = v),
-            type: _selectedType,
-            onTypeChanged: (v) => setState(() => _selectedType = v),
-          ),
-          const SizedBox(height: 12),
-          Expanded(
-            child: ListView.separated(
+            Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 16,
+                vertical: 12,
               ),
-              itemBuilder: (context, index) {
-                final d = _filteredDoctors[index];
-                return _DoctorCard(
-                  data: d,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      RouteGenerator.doctorDetailRoute,
-                      arguments: d,
-                    );
-                  },
-                );
-              },
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemCount: _filteredDoctors.length,
+              child: _SearchBar(
+                controller: _searchCtrl,
+                onChanged: (_) => setState(() {}),
+              ),
             ),
-          ),
-        ],
+            _QuickFilters(
+              specialties: _specialties,
+              selectedSpecialty: _selectedSpecialty,
+              onSpecialtyChanged: (v) => setState(() => _selectedSpecialty = v),
+              availability: _selectedAvailability,
+              onAvailabilityChanged: (v) =>
+                  setState(() => _selectedAvailability = v),
+              type: _selectedType,
+              onTypeChanged: (v) => setState(() => _selectedType = v),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                ),
+                itemBuilder: (context, index) {
+                  final d = _filteredDoctors[index];
+                  return _DoctorCard(
+                    data: d,
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        RouteGenerator.doctorDetailRoute,
+                        arguments: d,
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                itemCount: _filteredDoctors.length,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
