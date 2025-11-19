@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/doctor/presentation/views/doctor_screen.dart';
+import 'package:healthx_patient/features/doctor/presentation/views/medicine_screen.dart';
 import 'package:healthx_patient/features/home_tab/view/home_screen.dart';
 import 'package:healthx_patient/features/lab_test/presentation/views/lab_test_screen.dart';
 import 'package:healthx_patient/features/profile/presentation/views/profile_screen.dart';
@@ -22,11 +23,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     HomeScreen(),
     DoctorScreen(),
     LabTestScreen(),
-
-    SizedBox(),
-    // PrescriptionScreen(
-    //   isForm: false,
-    // ),
+    MedicineScreen(),
     ProfileScreen(),
   ];
 
