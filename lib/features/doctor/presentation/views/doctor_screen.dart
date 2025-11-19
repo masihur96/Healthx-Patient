@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:healthx_patient/configs/custom_size.dart';
 import 'package:healthx_patient/configs/route_generator.dart';
 import 'package:healthx_patient/core/constants/app_colors.dart';
-import 'package:healthx_patient/shared/avater_widget.dart';
+import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 
 class DoctorScreen extends StatefulWidget {
   const DoctorScreen({super.key});
@@ -28,7 +30,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
   final List<Map<String, dynamic>> _doctors = <Map<String, dynamic>>[
     {
       'name': 'Dr. Masihur Rahman',
-      'avatar': 'assets/images/onboard.png',
+      'avatar': 'assets/images/onboard.jpg',
       'specialty': 'Cardiologist',
       'rating': 4.8,
       'experience': '10+ Years',
@@ -48,13 +50,23 @@ class _DoctorScreenState extends State<DoctorScreen> {
     },
     {
       'name': 'Dr. Rafiul Hasan',
-      'avatar': 'assets/images/onboard.png',
+      'avatar': 'assets/images/onboard.jpg',
       'specialty': 'Dermatologist',
       'rating': 4.9,
       'experience': '12 Years',
       'hospital': 'Skin & Care Center',
       'reviews': 210,
       'fee': 28.0,
+    },
+    {
+      'name': 'Dr. Ayesha Karim',
+      'avatar': 'assets/images/onboarding_preview1.png',
+      'specialty': 'Dentist',
+      'rating': 4.7,
+      'experience': '8 Years',
+      'hospital': 'Smile Care Dental',
+      'reviews': 96,
+      'fee': 25.0,
     },
   ];
 
@@ -72,24 +84,46 @@ class _DoctorScreenState extends State<DoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        titleSpacing: 16,
-        title: const Text('Find a Doctor'),
-        actions: [
-          IconButton(
-            onPressed: _openFiltersSheet,
-            icon: const Icon(Icons.tune_rounded),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: Row(
+            children: [
+              Text(
+                'Find a Doctor',
+                style: TextStyle(
+                    fontSize: screenSize(context, .05),
+                    fontWeight: FontWeight.w600),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: _openFiltersSheet,
+                icon: const Icon(Icons.tune_rounded),
+              ),
+              Builder(
+                builder: (ctx) => GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Icon(
+                      Icons.menu,
+                      size: screenSize(context, .08),
+                    ),
+                  ),
+                  onTap: () {
+                    z.toggle?.call();
+                    HapticFeedback.selectionClick();
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+          )),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            padding: const EdgeInsets.symmetric(
+              vertical: 12,
+            ),
             child: _SearchBar(
               controller: _searchCtrl,
               onChanged: (_) => setState(() {}),
@@ -105,10 +139,12 @@ class _DoctorScreenState extends State<DoctorScreen> {
             type: _selectedType,
             onTypeChanged: (v) => setState(() => _selectedType = v),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              padding: const EdgeInsets.symmetric(
+                vertical: 16,
+              ),
               itemBuilder: (context, index) {
                 final d = _filteredDoctors[index];
                 return _DoctorCard(
@@ -258,11 +294,9 @@ class _QuickFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        scrollDirection: Axis.horizontal,
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _Chip(
             label: selectedSpecialty,
@@ -365,15 +399,19 @@ class _DoctorCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.white,
-                child:
-                    getAvatarWidget(data['avatar'], data['name'], data['name']),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12), // your desired radius
+                child: Image.asset(
+                  data['avatar'],
+                  fit: BoxFit.cover,
+                  width: 100,
+                  height: 100,
+                ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                     _login(authVM, context);
                   },
                   title: 'Sign In',
-                  bgColor: AppColors.primaryColor,
+                  bgColor: AppColors.yellow,
                 ),
                 const SizedBox(height: 24),
                 Row(

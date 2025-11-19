@@ -22,9 +22,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     HomeScreen(),
     DoctorScreen(),
     LabTestScreen(),
-    // PatientScreen(
-    //   isForm: false,
-    // ),
 
     SizedBox(),
     // PrescriptionScreen(

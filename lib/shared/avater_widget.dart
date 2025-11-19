@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget getAvatarWidget(String avatar, String firstName, String lastName) {
-  final isSvg = avatar.toLowerCase().endsWith(".svg") || avatar.contains("/svg");
+  final isSvg =
+      avatar.toLowerCase().endsWith(".svg") || avatar.contains("/svg");
 
   if (avatar.isEmpty) {
     return Text(
@@ -20,21 +21,19 @@ Widget getAvatarWidget(String avatar, String firstName, String lastName) {
       child: SvgPicture.network(
         avatar,
         fit: BoxFit.cover,
-
-        placeholderBuilder: (_) => const Center(child: CircularProgressIndicator(strokeWidth: 1.5)),
+        placeholderBuilder: (_) =>
+            const Center(child: CircularProgressIndicator(strokeWidth: 1.5)),
       ),
     );
   } else {
-    return  Container(
-
+    print("Avatar::$avatar");
+    return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-
       ),
       child: ClipOval(
         child: CachedNetworkImage(
           imageUrl: avatar,
-
           height: 200,
           width: 200,
           fit: BoxFit.cover,
@@ -44,7 +43,6 @@ Widget getAvatarWidget(String avatar, String firstName, String lastName) {
           errorWidget: (context, url, error) => Icon(Icons.person, size: 30),
         ),
       ),
-    )
-    ;
+    );
   }
 }

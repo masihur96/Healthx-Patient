@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'test_details_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:healthx_patient/configs/custom_size.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
+import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
+
 import 'booking_screen.dart';
 import 'digital_report_screen.dart';
+import 'test_details_screen.dart';
 
 class LabTestScreen extends StatefulWidget {
   const LabTestScreen({super.key});
@@ -43,13 +48,38 @@ class _LabTestScreenState extends State<LabTestScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lab Tests & Diagnostics'),
-        centerTitle: false,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: Row(
+            children: [
+              Text(
+                'Lab Tests & Diagnostics',
+                style: TextStyle(
+                    fontSize: screenSize(context, .05),
+                    fontWeight: FontWeight.w600),
+              ),
+              Spacer(),
+              Builder(
+                builder: (ctx) => GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Icon(
+                      Icons.menu,
+                      size: screenSize(context, .08),
+                    ),
+                  ),
+                  onTap: () {
+                    z.toggle?.call();
+                    HapticFeedback.selectionClick();
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+          )),
+      body: Column(
         children: [
+          const SizedBox(height: 16),
           _buildSearchBar(context),
           const SizedBox(height: 16),
           _buildQuickActions(context),
@@ -57,7 +87,8 @@ class _LabTestScreenState extends State<LabTestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              Text('Recommended Packages', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+              Text('Recommended Packages',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               // Could add a See all button later
             ],
           ),
@@ -106,7 +137,8 @@ class _LabTestScreenState extends State<LabTestScreen> {
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: 'Search test by name (e.g., CBC, Lipid Profile)',
-              border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
             ),
             textInputAction: TextInputAction.search,
             onSubmitted: (q) {
@@ -167,7 +199,7 @@ class _LabTestScreenState extends State<LabTestScreen> {
         Expanded(
           child: _QuickActionCard(
             emoji: '🏠',
-            title: 'Home Sample Collection',
+            title: 'Sample',
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -202,7 +234,8 @@ class _QuickActionCard extends StatelessWidget {
   final String emoji;
   final String title;
   final VoidCallback onTap;
-  const _QuickActionCard({required this.emoji, required this.title, required this.onTap});
+  const _QuickActionCard(
+      {required this.emoji, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +244,7 @@ class _QuickActionCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Ink(
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
@@ -220,7 +253,9 @@ class _QuickActionCard extends StatelessWidget {
           children: [
             Text(emoji, style: const TextStyle(fontSize: 24)),
             const SizedBox(height: 8),
-            Text(title, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w600)),
           ],
         ),
       ),
@@ -234,14 +269,19 @@ class _PackageCard extends StatelessWidget {
   final double price;
   final String reportTime;
   final VoidCallback onTap;
-  const _PackageCard({required this.title, required this.desc, required this.price, required this.reportTime, required this.onTap});
+  const _PackageCard(
+      {required this.title,
+      required this.desc,
+      required this.price,
+      required this.reportTime,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 260,
       child: Material(
-        color: Theme.of(context).cardColor,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           onTap: onTap,
@@ -251,16 +291,22 @@ class _PackageCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                Text(title,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 6),
-                Expanded(child: Text(desc, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                Expanded(
+                    child: Text(desc,
+                        maxLines: 2, overflow: TextOverflow.ellipsis)),
                 const SizedBox(height: 6),
-                Text('Report: $reportTime', style: const TextStyle(fontSize: 12)),
+                Text('Report: $reportTime',
+                    style: const TextStyle(fontSize: 12)),
                 const SizedBox(height: 6),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('৳${price.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.w700)),
+                    Text('৳${price.toStringAsFixed(0)}',
+                        style: const TextStyle(fontWeight: FontWeight.w700)),
                     const Icon(Icons.arrow_forward_rounded),
                   ],
                 ),
@@ -295,15 +341,26 @@ class _FilterSheetState extends State<_FilterSheet> {
           Wrap(
             spacing: 8,
             children: [
-              ChoiceChip(label: const Text('Price'), selected: sort == 'Price', onSelected: (_) => setState(() => sort = 'Price')),
-              ChoiceChip(label: const Text('Type'), selected: sort == 'Type', onSelected: (_) => setState(() => sort = 'Type')),
-              ChoiceChip(label: const Text('Availability'), selected: sort == 'Availability', onSelected: (_) => setState(() => sort = 'Availability')),
+              ChoiceChip(
+                  label: const Text('Price'),
+                  selected: sort == 'Price',
+                  onSelected: (_) => setState(() => sort = 'Price')),
+              ChoiceChip(
+                  label: const Text('Type'),
+                  selected: sort == 'Type',
+                  onSelected: (_) => setState(() => sort = 'Type')),
+              ChoiceChip(
+                  label: const Text('Availability'),
+                  selected: sort == 'Availability',
+                  onSelected: (_) => setState(() => sort = 'Availability')),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Switch(value: homeCollection, onChanged: (v) => setState(() => homeCollection = v)),
+              Switch(
+                  value: homeCollection,
+                  onChanged: (v) => setState(() => homeCollection = v)),
               const SizedBox(width: 8),
               const Text('Home sample collection'),
             ],
@@ -312,7 +369,8 @@ class _FilterSheetState extends State<_FilterSheet> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Navigator.of(context).pop({'sort': sort, 'home': homeCollection}),
+              onPressed: () => Navigator.of(context)
+                  .pop({'sort': sort, 'home': homeCollection}),
               child: const Text('Apply Filters'),
             ),
           ),

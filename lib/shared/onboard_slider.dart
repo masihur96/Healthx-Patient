@@ -96,7 +96,6 @@ class _OnboardSliderState extends State<OnboardSlider> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.yellow,
-                    foregroundColor: AppColors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
