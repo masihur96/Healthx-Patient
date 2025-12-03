@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
             // });
 
             return MaterialApp(
-              title: 'Anuj Prakashan',
+              title: 'Healthx App',
               theme: CustomTheme.lightTheme,
               darkTheme: CustomTheme.darkTheme,
               debugShowCheckedModeBanner: false,
