@@ -66,7 +66,7 @@ class _DrawerScreenState extends State<DrawerScreen>
         openCurve: Curves.fastOutSlowIn,
         closeCurve: Curves.bounceIn,
         duration: const Duration(milliseconds: 500),
-        menuBackgroundColor: Colors.greenAccent,
+        menuBackgroundColor: Color(0xff7CB0F0),
         // Provider.of<ThemeProvider>(context).getIsDarkMode
         //     ? AKEColor.textColor
         //     : AKEColor.backgroundBlue,
@@ -74,7 +74,7 @@ class _DrawerScreenState extends State<DrawerScreen>
         menuScreen: Theme(
           data: ThemeData.dark(),
           child: Scaffold(
-              backgroundColor: Colors.green,
+              backgroundColor: Color(0xff1A73E8) ,
 
               // Provider.of<ThemeProvider>(context).getIsDarkMode
               //     ? AKEColor.textColor
