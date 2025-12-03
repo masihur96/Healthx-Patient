@@ -54,7 +54,7 @@ class _DrawerScreenState extends State<DrawerScreen>
       canPop: false,
       child: ZoomDrawer(
         menuScreenOverlayColor: Colors.blueAccent,
-        mainScreenTapClose: false,
+        mainScreenTapClose: true,
         controller: z,
         borderRadius: 24,
         style: DrawerStyle.defaultStyle,

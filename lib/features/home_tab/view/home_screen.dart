@@ -14,279 +14,139 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Responsive padding helper
-  double _getResponsivePadding(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    if (width > 600) return 32.0;
-    if (width > 400) return 20.0;
-    return 16.0;
-  }
-
-  // Get responsive grid count
-  int _getGridCrossAxisCount(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    if (width > 600) return 5;
-    if (width > 400) return 3;
-    return 3;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final auth = AuthUser();
-    final horizontalPadding = _getResponsivePadding(context);
+    final auth = AuthUser(); // Replace with Provider later
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFB),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: _enhancedAppBar(auth),
-      ),
+     // KEEPING YOUR OLD APPBAR
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              _promoBanner(context),
-              const SizedBox(height: 32),
-              _sectionTitle("Quick Access"),
-              const SizedBox(height: 16),
-              _quickAccessGrid(context),
-              const SizedBox(height: 32),
-              _sectionTitle("Upcoming Appointment"),
-              const SizedBox(height: 16),
-              _appointmentCard(context),
-              const SizedBox(height: 32),
-              _sectionTitle("Health Insights"),
-              const SizedBox(height: 16),
-              _insightCards(context),
-              const SizedBox(height: 40),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 32),
+            _customAppBar(auth),
+            // _welcomeHeader(auth),
+            const SizedBox(height: 12),
+            _promoBanner(),
+            const SizedBox(height: 22),
+            _sectionTitle("Overview"),
+            const SizedBox(height: 12),
+            _quickAccessGrid(),
+            const SizedBox(height: 22),
+            _sectionTitle("Upcoming Appointment"),
+            const SizedBox(height: 12),
+            _appointmentCard(),
+            const SizedBox(height: 22),
+            _sectionTitle("Health Insights"),
+            const SizedBox(height: 12),
+            _insightCards(),
+            const SizedBox(height: 30),
+          ],
         ),
       ),
     );
   }
 
   //──────────────────────────────────────────
-  // ENHANCED APP BAR – Premium Gradient Style
+  // A. WELCOME HEADER – Premium Style
   //──────────────────────────────────────────
-  Widget _enhancedAppBar(AuthUser authVM) {
+  Widget _welcomeHeader(AuthUser user) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            const Color(0xFF2196F3),
-            const Color(0xFF1976D2),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF2196F3).withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+      padding: const EdgeInsets.all(20),
+      decoration: _boxStyle(),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 32,
+            backgroundColor: Colors.blue.shade50,
+            child: (user.avatarUrl == null)
+                ? const Icon(Icons.person, size: 40, color: Colors.blue)
+                : getAvatarWidget(user.avatarUrl, user.name, user.name),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Hello,",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+                Text(
+                  user.name ?? "User",
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "We wish you a healthy day 💙",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: CircleAvatar(
-                  radius: 28,
-                  backgroundColor: Colors.white,
-                  child: authVM.avatarUrl.isEmpty
-                      ? const Icon(
-                          Icons.person,
-                          size: 32,
-                          color: Color(0xFF2196F3),
-                        )
-                      : getAvatarWidget(authVM.avatarUrl, authVM.name, authVM.name),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Welcome Back",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.white.withOpacity(0.9),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      authVM.name.isNotEmpty ? authVM.name : "User",
-                      style: const TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    // Search functionality
-                  },
-                  icon: const Icon(
-                    Icons.search_outlined,
-                    size: 26,
-                    color: Colors.white,
-                  ),
-                  tooltip: 'Search',
-                ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Builder(
-                  builder: (ctx) => IconButton(
-                    onPressed: () {
-                      z.toggle?.call();
-                      HapticFeedback.lightImpact();
-                    },
-                    icon: const Icon(
-                      Icons.menu_rounded,
-                      size: 26,
-                      color: Colors.white,
-                    ),
-                    tooltip: 'Menu',
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
   //──────────────────────────────────────────
-  // QUICK ACCESS GRID – Responsive & Premium
+  // B. QUICK ACCESS GRID – More Premium
   //──────────────────────────────────────────
-  Widget _quickAccessGrid(BuildContext context) {
+  Widget _quickAccessGrid() {
     List<Map<String, dynamic>> services = [
-      {
-        "title": "Doctor",
-        "icon": Icons.medical_services_outlined,
-        "color": const Color(0xFF4CAF50),
-      },
-      {
-        "title": "Lab Test",
-        "icon": Icons.biotech_outlined,
-        "color": const Color(0xFFFF9800),
-      },
-      {
-        "title": "Medicine",
-        "icon": Icons.local_pharmacy_outlined,
-        "color": const Color(0xFFE91E63),
-      },
-      {
-        "title": "Health Plans",
-        "icon": Icons.health_and_safety_outlined,
-        "color": const Color(0xFF9C27B0),
-      },
-      {
-        "title": "Appointments",
-        "icon": Icons.calendar_month_outlined,
-        "color": const Color(0xFF2196F3),
-      },
+      {"title": "Doctor", "icon": Icons.medical_services_outlined},
+      {"title": "Lab Test", "icon": Icons.biotech_outlined},
+      {"title": "Medicine", "icon": Icons.local_pharmacy_outlined},
+      {"title": "Health Plans", "icon": Icons.health_and_safety_outlined},
+      {"title": "Appointments", "icon": Icons.calendar_month_outlined},
     ];
 
     return GridView.builder(
+      padding: EdgeInsets.zero,
       itemCount: services.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _getGridCrossAxisCount(context),
-        mainAxisExtent: 120,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisExtent: 115,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
       ),
       itemBuilder: (_, i) {
         final item = services[i];
 
-        return Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              HapticFeedback.selectionClick();
-              AppSnackBar.show(context, message: "${item["title"]} coming soon!");
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: item["color"].withOpacity(0.15),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+        return GestureDetector(
+          onTap: () {
+            AppSnackBar.show(context, message: "${item["title"]} coming soon!");
+          },
+          child: Container(
+            // padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+            decoration: _boxStyle(radius: 18),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(item["icon"], size: 38, color: Colors.blue.shade700),
+                const SizedBox(height: 12),
+                Text(
+                  item["title"],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    color: Colors.grey.shade800,
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: item["color"].withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      item["icon"],
-                      size: 32,
-                      color: item["color"],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    item["title"],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: Colors.grey.shade800,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -295,44 +155,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //──────────────────────────────────────────
-  // UPCOMING APPOINTMENT – Premium Card
+  // C. UPCOMING APPOINTMENT – Premium Card
   //──────────────────────────────────────────
-  Widget _appointmentCard(BuildContext context) {
-    bool hasAppointment = true;
+  Widget _appointmentCard() {
+    bool hasAppointment = true; // Replace later with API
 
     if (!hasAppointment) {
       return Container(
-        padding: const EdgeInsets.all(24),
-        decoration: _premiumBoxStyle(),
+        padding: const EdgeInsets.all(20),
+        decoration: _boxStyle(),
         child: Column(
           children: [
-            Icon(
-              Icons.event_busy_outlined,
-              size: 48,
-              color: Colors.grey.shade400,
-            ),
-            const SizedBox(height: 16),
-            Text(
+            const Text(
               "No appointments scheduled",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey.shade700,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
+            const SizedBox(height: 12),
+            ElevatedButton(
               onPressed: () {},
-              icon: const Icon(Icons.add),
-              label: const Text("Book Appointment"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2196F3),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+              child: const Text("Book Appointment"),
             )
           ],
         ),
@@ -340,146 +181,45 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Container(
-      decoration: _premiumBoxStyle(),
-      child: Column(
+      padding: const EdgeInsets.all(18),
+      decoration: _boxStyle(),
+      child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF2196F3).withOpacity(0.3),
-                        const Color(0xFF1976D2).withOpacity(0.3),
-                      ],
-                    ),
-                    border: Border.all(
-                      color: const Color(0xFF2196F3).withOpacity(0.3),
-                      width: 2,
-                    ),
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/onboarding_preview1.png"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Dr. Jonathan Smith",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                          letterSpacing: 0.2,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text(
-                            "Cardiologist",
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF4CAF50).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Text(
-                              "Confirmed",
-                              style: TextStyle(
-                                color: Color(0xFF4CAF50),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_today_outlined,
-                            size: 16,
-                            color: const Color(0xFF2196F3),
-                          ),
-                          const SizedBox(width: 6),
-                          const Text(
-                            "Mon, 12 Dec",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          const SizedBox(width: 16),
-                          Icon(
-                            Icons.access_time_outlined,
-                            size: 16,
-                            color: const Color(0xFF2196F3),
-                          ),
-                          const SizedBox(width: 6),
-                          const Text(
-                            "10:30 AM",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            width: 62,
+            height: 62,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.blue.shade50,
+              image: const DecorationImage(
+                  image: AssetImage("assets/images/onboarding_preview1.png"),
+                  fit: BoxFit.cover),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF2196F3).withOpacity(0.05),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _appointmentAction(
-                  Icons.message_outlined,
-                  "Message",
-                  const Color(0xFF2196F3),
-                ),
-                Container(
-                  width: 1,
-                  height: 24,
-                  color: Colors.grey.shade300,
-                ),
-                _appointmentAction(
-                  Icons.videocam_outlined,
-                  "Video Call",
-                  const Color(0xFF4CAF50),
-                ),
-                Container(
-                  width: 1,
-                  height: 24,
-                  color: Colors.grey.shade300,
-                ),
-                _appointmentAction(
-                  Icons.directions_outlined,
-                  "Directions",
-                  const Color(0xFFFF9800),
+                const Text("Dr. Jonathan Smith",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+                const SizedBox(height: 3),
+                Text("Cardiologist",
+                    style: TextStyle(color: Colors.grey.shade600)),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(Icons.calendar_today,
+                        size: 16, color: Colors.blue.shade700),
+                    const SizedBox(width: 6),
+                    const Text("Mon, 12 Dec"),
+                    const SizedBox(width: 16),
+                    Icon(Icons.access_time,
+                        size: 16, color: Colors.blue.shade700),
+                    const SizedBox(width: 6),
+                    const Text("10:30 AM"),
+                  ],
                 ),
               ],
             ),
@@ -489,119 +229,42 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _appointmentAction(IconData icon, String label, Color color) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: color),
-        const SizedBox(width: 6),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: color,
-          ),
-        ),
-      ],
-    );
-  }
-
   //──────────────────────────────────────────
-  // HEALTH INSIGHTS – Premium Cards
+  // D. HEALTH INSIGHTS – More Premium
   //──────────────────────────────────────────
-  Widget _insightCards(BuildContext context) {
-    List<Map<String, dynamic>> data = [
-      {
-        "title": "Completed Tests",
-        "value": "03",
-        "icon": Icons.check_circle_outline,
-        "color": const Color(0xFF4CAF50),
-      },
-      {
-        "title": "Active Medicines",
-        "value": "02",
-        "icon": Icons.medication_outlined,
-        "color": const Color(0xFF2196F3),
-      },
-      {
-        "title": "Pending Reports",
-        "value": "01",
-        "icon": Icons.pending_actions_outlined,
-        "color": const Color(0xFFFF9800),
-      },
+  Widget _insightCards() {
+    List<Map<String, String>> data = [
+      {"title": "Completed Tests", "value": "03"},
+      {"title": "Active Medicines", "value": "02"},
+      {"title": "Pending Reports", "value": "01"},
     ];
 
     return Container(
-      decoration: _premiumBoxStyle(),
+      decoration: _boxStyle(),
       child: Column(
-        children: data.asMap().entries.map((entry) {
-          final index = entry.key;
-          final item = entry.value;
-          final isLast = index == data.length - 1;
-
+        children: data.map((item) {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: item["color"].withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        item["icon"],
-                        size: 24,
-                        color: item["color"],
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        item["title"]!,
+                    Text(item["title"]!,
                         style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.2,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            item["color"].withOpacity(0.1),
-                            item["color"].withOpacity(0.05),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        item["value"]!,
+                            fontSize: 15, fontWeight: FontWeight.w500)),
+                    Text(item["value"]!,
                         style: TextStyle(
-                          fontSize: 20,
-                          color: item["color"],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                          fontSize: 18,
+                          color: Colors.blue.shade700,
+
+                        )),
                   ],
                 ),
               ),
-              if (!isLast)
-                Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: Colors.grey.shade200,
-                  indent: 20,
-                  endIndent: 20,
-                ),
+              if (item != data.last)
+                Divider(height: 1, color: Colors.grey.shade300),
             ],
           );
         }).toList(),
@@ -610,62 +273,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //──────────────────────────────────────────
-  // PROMO BANNER – Enhanced with Gradient Overlay
+  // E. PROMO BANNER – Clean Modern
   //──────────────────────────────────────────
-  Widget _promoBanner(BuildContext context) {
+  Widget _promoBanner() {
     return Container(
-      height: 180,
+      height: 160,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF2196F3).withOpacity(0.2),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: Stack(
-          children: [
-            // Background Image
-            Positioned.fill(
-              child: Image.asset(
-                "assets/images/promo_banner.png",
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          const Color(0xFF2196F3),
-                          const Color(0xFF1976D2),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            // Gradient Overlay for better text visibility
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.3),
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        borderRadius: BorderRadius.circular(18),
+        image: const DecorationImage(
+          image: AssetImage("assets/images/promo_banner.png"),
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -677,31 +294,86 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _sectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-        letterSpacing: 0.3,
-        color: Color(0xFF1A1A1A),
-      ),
+      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
     );
   }
 
-  BoxDecoration _premiumBoxStyle({double radius = 20}) {
+  BoxDecoration _boxStyle({double radius = 20}) {
     return BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(radius),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.06),
-          blurRadius: 16,
-          offset: const Offset(0, 4),
-        ),
-        BoxShadow(
-          color: Colors.black.withOpacity(0.02),
-          blurRadius: 6,
-          offset: const Offset(0, 2),
+          color: Colors.black.withOpacity(0.05),
+          blurRadius: 8,
+          offset: const Offset(0, 3),
         ),
       ],
+    );
+  }
+
+  // KEEPING YOUR ORIGINAL APPBAR
+  Widget _customAppBar(AuthUser authVM) {
+    // if (authVM.error != null) {
+    //   return Text("${authVM.error}");
+    // }
+    // if (authVM.profileModel == null) {
+    //   return Text("No Data Found");
+    // }
+    // if (authVM.profileModel?.doctorInfo == null) {
+    //   return Text("No Doctor info Found");
+    // }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.white,
+            child: authVM.avatarUrl.isEmpty
+                ? Icon(
+                    Icons.person,
+                    size: 40,
+                    color: Color(0xFF2196F3),
+                  )
+                : getAvatarWidget(authVM.avatarUrl, authVM.name, authVM.name),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Welcome Back",
+                  style: TextStyle(fontSize: 14, color: Colors.grey)),
+              Text("${authVM.name} ${authVM.name}",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const Spacer(),
+          IconButton(
+            onPressed: () {
+              // Navigator.push(
+              //     context, MaterialPageRoute(builder: (_) => SearchScreen()));
+            },
+            icon: Icon(Icons.search_outlined, size: 28),
+          ),
+          Builder(
+            builder: (ctx) => GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Icon(
+                  Icons.menu,
+                  size: screenSize(context, .08),
+                ),
+              ),
+              onTap: () {
+                z.toggle?.call();
+                HapticFeedback.selectionClick();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
