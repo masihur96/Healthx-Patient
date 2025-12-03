@@ -47,25 +47,23 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   Widget _mobileView() {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: PageTransitionSwitcher(
-            reverse: _isLoggedIn,
-            transitionBuilder: (
-              Widget child,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-            ) {
-              return SharedAxisTransition(
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                transitionType: _transitionType!,
-                child: child,
-              );
-            },
-            child: pageList[pageIndex],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: PageTransitionSwitcher(
+          reverse: _isLoggedIn,
+          transitionBuilder: (
+            Widget child,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) {
+            return SharedAxisTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: _transitionType!,
+              child: child,
+            );
+          },
+          child: pageList[pageIndex],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

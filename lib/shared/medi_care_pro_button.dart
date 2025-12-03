@@ -38,17 +38,20 @@ class MediCareProButton extends StatelessWidget {
             ))
           : GestureDetector(
               onTap: onTap,
-              child: SizedBox(
-                height: height,
-                width: width,
-                child: Center(
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: AppColors.black,
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.bold),
+              child: Container(
+
+                child: SizedBox(
+                  height: height,
+                  width: width,
+                  child: Center(
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: AppColors.black,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),

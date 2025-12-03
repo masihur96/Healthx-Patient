@@ -133,7 +133,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                       ),
                       menuBtn(
                         menuIcon: const Icon(Icons.group_outlined),
-                        name: "Doctor Consultation",
+                        name: "Consultation",
                         onTap: () async {
                           HapticFeedback.selectionClick();
                           Navigator.of(context).push(
@@ -185,7 +185,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                       ),
                       menuBtn(
                         menuIcon: const Icon(Icons.message_outlined),
-                        name: "Appointment Schedule",
+                        name: "Schedule",
                         onTap: () async {
                           HapticFeedback.selectionClick();
                         },
@@ -290,9 +290,9 @@ class _DrawerScreenState extends State<DrawerScreen>
               child: Text(
                 name,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontWeight: FontWeight.w900,
+
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: screenSize(context, .04),
                     overflow: TextOverflow.ellipsis),
                 maxLines: 2,
               ),

@@ -85,20 +85,20 @@ class MyApp extends StatelessWidget {
 
         return Consumer2<ThemeProvider, LanguageProvider>(
           builder: (context, themeProvider, languageProvider, child) {
-            final theme = themeProvider.getTheme();
+            // final theme = themeProvider.getTheme();
 
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              SystemChrome.setSystemUIOverlayStyle(
-                SystemUiOverlayStyle(
-                  statusBarColor: theme.brightness == Brightness.dark
-                      ? Colors.transparent
-                      : Colors.white,
-                  statusBarIconBrightness: theme.brightness == Brightness.dark
-                      ? Brightness.light
-                      : Brightness.dark,
-                ),
-              );
-            });
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   SystemChrome.setSystemUIOverlayStyle(
+            //     SystemUiOverlayStyle(
+            //       statusBarColor: theme.brightness == Brightness.dark
+            //           ? Colors.transparent
+            //           : Colors.white,
+            //       statusBarIconBrightness: theme.brightness == Brightness.dark
+            //           ? Brightness.light
+            //           : Brightness.dark,
+            //     ),
+            //   );
+            // });
 
             return MaterialApp(
               title: 'Anuj Prakashan',

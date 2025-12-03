@@ -108,107 +108,105 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     final authVM = Provider.of<AuthViewModel>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true, // 👈 Important
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 32),
-                Text(
-                  "Welcome Back!",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Sign In to your account",
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                      ),
-                ),
-                // const SizedBox(height: 32),
-                // _googleSignInButton(),
-                // const SizedBox(height: 16),
-                // _dividerWithOr(),
-                const SizedBox(height: 16),
-                _loginForm(),
-                //  const SizedBox(height: 8),
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: TextButton(
-                //     onPressed: () {
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (_) => ForgetPasswordScreen(
-                //                     initialEmail: _bMDC,
-                //                   )));
-                //       // showDialog(
-                //       //   barrierDismissible: false,
-                //       //   context: context,
-                //       //   builder: (_) => BounchingDialog(
-                //       //     width: screenSize(context, 0.6),
-                //       //     height: screenSize(context, 1.1),
-                //       //     child: ForgetPasswordDialog(),
-                //       //   ),
-                //       // );
-                //     },
-                //     child: Text(
-                //       "Forgot Password?",
-                //       style: TextStyle(
-                //         color: Colors.blue[700],
-                //         fontWeight: FontWeight.w600,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                const SizedBox(height: 8),
-                MediCareProButton(
-                  height: 48,
-                  width: double.infinity,
-                  isLoading: _isLoading,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 32),
+              Text(
+                "Welcome Back!",
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Sign In to your account",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey[600],
+                      fontSize: 16,
+                    ),
+              ),
+              // const SizedBox(height: 32),
+              // _googleSignInButton(),
+              // const SizedBox(height: 16),
+              // _dividerWithOr(),
+              const SizedBox(height: 16),
+              _loginForm(),
+              //  const SizedBox(height: 8),
+              // Align(
+              //   alignment: Alignment.centerRight,
+              //   child: TextButton(
+              //     onPressed: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (_) => ForgetPasswordScreen(
+              //                     initialEmail: _bMDC,
+              //                   )));
+              //       // showDialog(
+              //       //   barrierDismissible: false,
+              //       //   context: context,
+              //       //   builder: (_) => BounchingDialog(
+              //       //     width: screenSize(context, 0.6),
+              //       //     height: screenSize(context, 1.1),
+              //       //     child: ForgetPasswordDialog(),
+              //       //   ),
+              //       // );
+              //     },
+              //     child: Text(
+              //       "Forgot Password?",
+              //       style: TextStyle(
+              //         color: Colors.blue[700],
+              //         fontWeight: FontWeight.w600,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              const SizedBox(height: 8),
+              MediCareProButton(
+                height: 48,
+                width: double.infinity,
+                isLoading: _isLoading,
 
-                  // onTap: _handleLogin,
-                  onTap: () {
-                    if (authVM.isLoading) return;
+                // onTap: _handleLogin,
+                onTap: () {
+                  if (authVM.isLoading) return;
 
-                    _login(authVM, context);
-                  },
-                  title: 'Sign In',
-                  bgColor: AppColors.yellow,
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don’t have account? ",
-                        style: TextStyle(color: Colors.grey[600])),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => RegistrationScreen()),
-                        );
-                      },
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          color: Colors.blue[700],
-                          fontWeight: FontWeight.w600,
-                        ),
+                  _login(authVM, context);
+                },
+                title: 'Sign In',
+                bgColor: AppColors.yellow,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don’t have account? ",
+                      style: TextStyle(color: Colors.grey[600])),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => RegistrationScreen()),
+                      );
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Colors.blue[700],
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
         ),
       ),
