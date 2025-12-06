@@ -154,7 +154,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _themeSetting(LanguageProvider languageProvider) {
     return Card(
       child: SwitchListTile(
-        activeColor: AppColors.yellow,
+        activeColor: AppColors.buttonColor,
         inactiveThumbColor: AppColors.black,
         title: Text(languageProvider.isBangla ? "থিম" : "Theme"),
         subtitle: Text(languageProvider.isBangla
@@ -323,7 +323,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.lock, color: AppColors.yellow),
+                  const Icon(Icons.lock),
                   const SizedBox(width: 8),
                   Text(
                     languageProvider.isBangla
@@ -440,41 +440,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
               // Change Password Button
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: null,
-                  // onPressed: _isChangingPassword ? null : _changePassword,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.yellow,
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: _isChangingPassword
-                      ? const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.black),
-                              ),
+                child: _isChangingPassword
+                    ? const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.black),
                             ),
-                            SizedBox(width: 8),
-                            Text("Changing Password..."),
-                          ],
-                        )
-                      : Text(
+                          ),
+                          SizedBox(width: 8),
+                          Text("Changing Password..."),
+                        ],
+                      )
+                    : ElevatedButton(
+                        onPressed: () {},
+                        // onPressed: _isChangingPassword ? null : _changePassword,
+                        // // onPressed: _isChangingPassword ? null : _changePassword,
+                        // // style: ElevatedButton.styleFrom(
+                        // //   backgroundColor: AppColors.buttonColor,
+                        // //   foregroundColor: Colors.black,
+                        // //   padding: const EdgeInsets.symmetric(vertical: 12),
+                        // //   shape: RoundedRectangleBorder(
+                        // //     borderRadius: BorderRadius.circular(8),
+                        // //   ),
+                        // // ),
+                        child: Text(
                           languageProvider.isBangla
                               ? "পাসওয়ার্ড পরিবর্তন"
                               : "Change Password",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.white),
                         ),
-                ),
+                      ),
               ),
             ],
           ),

@@ -39,7 +39,6 @@ class MediCareProButton extends StatelessWidget {
           : GestureDetector(
               onTap: onTap,
               child: Container(
-
                 child: SizedBox(
                   height: height,
                   width: width,
@@ -48,7 +47,7 @@ class MediCareProButton extends StatelessWidget {
                       title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: AppColors.black,
+                          color: AppColors.white,
                           fontFamily: "Roboto",
                           fontWeight: FontWeight.bold),
                     ),

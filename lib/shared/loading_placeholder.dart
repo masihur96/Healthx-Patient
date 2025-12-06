@@ -11,7 +11,7 @@ class LoadingPlaceHolder extends StatelessWidget {
         padding: const EdgeInsets.only(top: 208.0),
         child: Image.asset('assets/animations/loading.gif',
             repeat: ImageRepeat.repeat,
-            color: AppColors.yellow,
+            color: AppColors.buttonColor,
             // height: screenSize(context, .2),
             // width: screenSize(context, 1),
             fit: BoxFit.fitWidth),

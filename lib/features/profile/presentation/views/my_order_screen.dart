@@ -1,294 +1,183 @@
 import 'package:flutter/material.dart';
-import 'package:healthx_patient/core/utils/storage_service.dart';
-import 'package:healthx_patient/features/profile/data/models/order_response_model.dart';
-import 'package:healthx_patient/features/profile/data/models/profile_response_model.dart';
 import 'package:healthx_patient/shared/providers/language_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class MyOrderScreen extends StatefulWidget {
-  const MyOrderScreen({super.key});
+class MedicineOrderScreen extends StatefulWidget {
+  const MedicineOrderScreen({super.key});
 
   @override
-  State<MyOrderScreen> createState() => _MyOrderScreenState();
+  State<MedicineOrderScreen> createState() => _MedicineOrderScreenState();
 }
 
-class _MyOrderScreenState extends State<MyOrderScreen> {
-  final TextEditingController _reviewController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+class _MedicineOrderScreenState extends State<MedicineOrderScreen> {
   final TextEditingController _searchController = TextEditingController();
-  UserProfile? userProfile;
-  bool _isFetched = false;
-  int _selectedRating = 0;
-  // Track which orders are expanded
-  final Set<int> _expandedOrders = <int>{};
+  final ScrollController _scrollController = ScrollController();
+  final Set<int> _expandedOrders = {};
   bool _isSearchVisible = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUser();
-    _scrollController.addListener(_onScroll);
+  // ---------------------- DUMMY DATA ----------------------
+  final List<Map<String, dynamic>> _orders = [
+    {
+      "id": 1,
+      "transactionId": "TXN123456",
+      "totalAmount": 820,
+      "paymentStatus": "Paid",
+      "orderStatus": "DELIVERED",
+      "createdAt": DateTime.now().subtract(const Duration(days: 1)).toString(),
+      "items": [
+        {
+          "name": "Napa Extra 500mg",
+          "price": 120,
+          "qty": 2,
+          "image":
+              "https://www.beximcopharma.com/images/products/NAPA%20EXT%20TAB%20(FULL).png"
+        },
+        {
+          "name": "Seclo 20mg",
+          "price": 200,
+          "qty": 3,
+          "image": "https://www.squarepharma.com.bd/products/images/SECLo.jpg"
+        },
+      ]
+    },
+    {
+      "id": 2,
+      "transactionId": "TXN456789",
+      "totalAmount": 450,
+      "paymentStatus": "Pending",
+      "orderStatus": "PROCESSING",
+      "createdAt": DateTime.now().subtract(const Duration(days: 3)).toString(),
+      "items": [
+        {"name": "Losectil 20mg", "price": 150, "qty": 2, "image": ""}
+      ]
+    },
+  ];
+
+  // ---------------------- SEARCH ----------------------
+  List<Map<String, dynamic>> get _filteredOrders {
+    if (_searchController.text.trim().isEmpty) return _orders;
+
+    final query = _searchController.text.trim().toLowerCase();
+
+    return _orders.where((order) {
+      final tn = order["transactionId"].toString().toLowerCase();
+      final status = order["orderStatus"].toString().toLowerCase();
+      final medicineNames = order["items"]
+          .map((e) => e["name"].toString().toLowerCase())
+          .join(" ");
+
+      return tn.contains(query) ||
+          status.contains(query) ||
+          medicineNames.contains(query);
+    }).toList();
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      // Load more when user is 200 pixels from bottom
-      // context.read<MyOrderViewModel>().loadMoreOrders();
-    }
-  }
-
-  Future<void> _loadUser() async {
-    final userProfileResponse = await StorageService.getUserProfileData();
-    if (userProfileResponse != null) {
-      setState(() {
-        userProfile = userProfileResponse.data;
-      });
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_isFetched) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        // context.read<MyOrderViewModel>().fetchMyOrder(refresh: true);
-      });
-      _isFetched = true;
-    }
-  }
-  //
-  // void _submitReview(OrderBook book, MyOrderViewModel bookVM) async {
-  //   if (_reviewController.text.isEmpty) {
-  //     AppSnackBar.show(
-  //       context,
-  //       message: "Please type your Review.",
-  //     );
-  //
-  //     return;
-  //   }
-  //
-  //   final isSuccess = await bookVM.submitBookReviews(
-  //     bookId: book.documentId,
-  //     content: _reviewController.text,
-  //     rating: _selectedRating,
-  //   );
-  //
-  //   if (isSuccess) {
-  //
-  //     AppSnackBar.show(
-  //       context,
-  //       message: "Thanks for rating $_selectedRating stars!",
-  //     );
-  //
-  //   }
-  //
-  //   Navigator.pop(context);
-  // }
-
-  void _toggleOrderExpansion(int orderId) {
+  void _toggleOrderExpand(int id) {
     setState(() {
-      if (_expandedOrders.contains(orderId)) {
-        _expandedOrders.remove(orderId);
+      if (_expandedOrders.contains(id)) {
+        _expandedOrders.remove(id);
       } else {
-        _expandedOrders.add(orderId);
+        _expandedOrders.add(id);
       }
     });
-  }
-
-  Future<void> _onRefresh() async {
-    // final orderVM = context.read<MyOrderViewModel>();
-    // if (orderVM.isSearching) {
-    //   await orderVM.searchOrders(orderVM.searchQuery);
-    // } else {
-    //   await orderVM.fetchMyOrder(refresh: true);
-    // }
-  }
-
-  void _toggleSearch() {
-    setState(() {
-      _isSearchVisible = !_isSearchVisible;
-      if (!_isSearchVisible) {
-        _searchController.clear();
-        //    context.read<MyOrderViewModel>().clearSearch();
-
-        _onRefresh();
-      }
-    });
-  }
-
-  void _onSearchChanged(String query) async {
-    if (query.trim().isEmpty) {
-      //     context.read<MyOrderViewModel>().clearSearch();
-      return;
-    }
-
-    // Debounce search to avoid too many API calls
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (_searchController.text.trim() == query.trim()) {
-      //  await context.read<MyOrderViewModel>().searchOrders(query);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
-    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: const Icon(Icons.arrow_back_ios),
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          languageProvider.isBangla ? "আমার অর্ডারসমূহ" : "My Orders",
-          style: const TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(
-              _isSearchVisible ? Icons.close : Icons.search_outlined,
-              color: Colors.black87,
-            ),
-            onPressed: _toggleSearch,
-          ),
-        ],
-      ),
+      backgroundColor: const Color(0xFFF7F8FA),
+      appBar: _buildAppBar(languageProvider),
       body: Column(
         children: [
-          // Search bar
-          if (_isSearchVisible)
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.white,
-              child: TextField(
-                controller: _searchController,
-                onChanged: _onSearchChanged,
-                decoration: InputDecoration(
-                  hintText: languageProvider.isBangla
-                      ? "অর্ডার, বইয়ের নাম বা স্ট্যাটাস অনুসন্ধান করুন..."
-                      : "Search orders, book names, or status...",
-                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear, color: Colors.grey),
-                          onPressed: () {
-                            _searchController.clear();
-                            //  context.read<MyOrderViewModel>().clearSearch();
-                          },
-                        )
-                      : null,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.blue),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                ),
+          if (_isSearchVisible) _buildSearchBar(languageProvider),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async => setState(() {}),
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.all(16),
+                itemCount: _filteredOrders.length,
+                itemBuilder: (context, index) {
+                  final order = _filteredOrders[index];
+                  return _buildOrderCard(order, languageProvider);
+                },
               ),
             ),
-
-          // Orders list
-          // Expanded(
-          //   child: Consumer<MyOrderViewModel>(
-          //     builder: (context, orderVM, _) {
-          //       if (orderVM.isLoading && orderVM.allOrders.isEmpty) {
-          //         return OrdersShimmerScreen();
-          //       }
-          //
-          //       if (orderVM.error != null && orderVM.allOrders.isEmpty) {
-          //         return _buildErrorState(orderVM);
-          //       }
-          //
-          //       final orders = orderVM.allOrders;
-          //       if (orders.isEmpty) {
-          //         return _buildEmptyState(
-          //             languageProvider, orderVM.isSearching);
-          //       }
-          //
-          //       return RefreshIndicator(
-          //         onRefresh: _onRefresh,
-          //         child: ListView.builder(
-          //           controller: _scrollController,
-          //           padding: const EdgeInsets.all(16),
-          //           itemCount: orders.length + (orderVM.hasMoreData ? 1 : 0),
-          //           itemBuilder: (context, index) {
-          //             if (index == orders.length) {
-          //               // Show loading indicator at the bottom
-          //               return _buildLoadMoreIndicator(orderVM);
-          //             }
-          //
-          //             final order = orders[index];
-          //             return _buildOrderCard(order, languageProvider, theme);
-          //           },
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
+          ),
         ],
       ),
     );
   }
 
-  // Widget _buildLoadMoreIndicator(MyOrderViewModel orderVM) {
-  //   if (orderVM.isLoadingMore) {
-  //     return const Padding(
-  //       padding: EdgeInsets.all(16.0),
-  //       child: Center(
-  //         child: CircularProgressIndicator(),
-  //       ),
-  //     );
-  //   }
-  //
-  //   if (!orderVM.hasMoreData) {
-  //     return const Padding(
-  //       padding: EdgeInsets.all(16.0),
-  //       child: Center(
-  //         child: Text(
-  //           'No more orders to load',
-  //           style: TextStyle(
-  //             color: Colors.grey,
-  //             fontSize: 14,
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //
-  //   return const SizedBox.shrink();
-  // }
+  // ---------------------------------------------------------------------------
+  // UI Components
+  // ---------------------------------------------------------------------------
 
-  Widget _buildOrderCard(
-      Order order, LanguageProvider languageProvider, ThemeData theme) {
-    final isExpanded = _expandedOrders.contains(order.id);
-    final hasMultipleBooks = order.orderItems.length > 1;
+  AppBar _buildAppBar(LanguageProvider lp) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+        onPressed: () => Navigator.pop(context),
+      ),
+      title: Text(
+        lp.isBangla ? "ওষুধের অর্ডারসমূহ" : "Medicine Orders",
+        style: const TextStyle(color: Colors.black, fontSize: 18),
+      ),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: Icon(
+            _isSearchVisible ? Icons.close : Icons.search,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            setState(() {
+              _isSearchVisible = !_isSearchVisible;
+              if (!_isSearchVisible) _searchController.clear();
+            });
+          },
+        )
+      ],
+    );
+  }
+
+  Widget _buildSearchBar(LanguageProvider lp) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      color: Colors.white,
+      child: TextField(
+        controller: _searchController,
+        onChanged: (_) => setState(() {}),
+        decoration: InputDecoration(
+          hintText: lp.isBangla
+              ? "অর্ডার, ওষুধের নাম বা স্ট্যাটাস অনুসন্ধান করুন..."
+              : "Search orders, medicine names, or status...",
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: _searchController.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() {});
+                  },
+                )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderCard(Map<String, dynamic> order, LanguageProvider lp) {
+    final isExpanded = _expandedOrders.contains(order["id"]);
+    final items = List<Map<String, dynamic>>.from(order["items"]);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -297,564 +186,205 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
+            color: Colors.black.withOpacity(.05),
+            blurRadius: 8,
+          )
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildOrderHeader(order, theme),
-          _buildOrderDetails(order, languageProvider),
-          _buildOrderItems(
-              order, languageProvider, isExpanded, hasMultipleBooks),
+          _buildOrderHeader(order),
+          _buildOrderDetails(order),
+          _buildMedicineSection(items, lp, isExpanded, order["id"]),
         ],
       ),
     );
   }
 
-  Widget _buildOrderHeader(Order order, ThemeData theme) {
+  Widget _buildOrderHeader(Map<String, dynamic> order) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
-        color: Color(0xFFF8F9FA),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-        ),
+        color: Color(0xFFF1F3F5),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Total Amount + Transaction ID
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '৳${order.totalAmount.toStringAsFixed(0)} ${order.currency}',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2C3E50),
-                ),
+                '৳${order["totalAmount"]}',
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 4),
               Text(
-                'Order #${order.transactionId}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w500,
-                ),
+                "Order #${order["transactionId"]}",
+                style: TextStyle(color: Colors.grey[700]),
               ),
             ],
           ),
-          _buildStatusChip(order.orderStatus),
+
+          // Status Chip
+          _statusChip(order["orderStatus"]),
         ],
       ),
     );
   }
 
-  Widget _buildStatusChip(String status) {
-    Color backgroundColor;
-    Color textColor;
+  Widget _statusChip(String status) {
+    Color bg, text;
     IconData icon;
 
-    switch (status.toUpperCase()) {
-      case 'DELIVERED':
-        backgroundColor = const Color(0xFFE8F5E8);
-        textColor = const Color(0xFF2E7D32);
+    switch (status) {
+      case "DELIVERED":
+        bg = Colors.green.shade50;
+        text = Colors.green.shade700;
         icon = Icons.check_circle;
         break;
-      case 'PENDING':
-        backgroundColor = const Color(0xFFFFF3E0);
-        textColor = const Color(0xFFF57C00);
-        icon = Icons.schedule;
-        break;
-      case 'PROCESSING':
-        backgroundColor = const Color(0xFFE3F2FD);
-        textColor = const Color(0xFF1976D2);
+      case "PROCESSING":
+        bg = Colors.blue.shade50;
+        text = Colors.blue.shade700;
         icon = Icons.autorenew;
         break;
-      case 'CANCELLED':
-        backgroundColor = const Color(0xFFFFEBEE);
-        textColor = const Color(0xFFD32F2F);
-        icon = Icons.cancel;
-        break;
       default:
-        backgroundColor = const Color(0xFFF5F5F5);
-        textColor = const Color(0xFF757575);
-        icon = Icons.help;
+        bg = Colors.grey.shade300;
+        text = Colors.grey.shade700;
+        icon = Icons.info_outline;
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration:
+          BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: textColor),
-          const SizedBox(width: 6),
-          Text(
-            status,
-            style: TextStyle(
-              color: textColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
-            ),
-          ),
+          Icon(icon, size: 16, color: text),
+          const SizedBox(width: 4),
+          Text(status, style: TextStyle(color: text)),
         ],
       ),
     );
   }
 
-  Widget _buildOrderDetails(Order order, LanguageProvider languageProvider) {
+  Widget _buildOrderDetails(Map<String, dynamic> order) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 8),
-              Text(
-                'Order Date: ${DateFormat('MMM dd, yyyy • hh:mm a').format(DateTime.parse(order.createdAt))}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          Row(children: [
+            const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+            const SizedBox(width: 8),
+            Text(
+              DateFormat('MMM dd, yyyy')
+                  .format(DateTime.parse(order["createdAt"])),
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+          ]),
           const SizedBox(height: 8),
-          Row(
-            children: [
-              Icon(Icons.payment, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 8),
-              Text(
-                'Payment: ${order.paymentStatus}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          Row(children: [
+            const Icon(Icons.payments, size: 16, color: Colors.grey),
+            const SizedBox(width: 8),
+            Text(
+              "Payment: ${order["paymentStatus"]}",
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+          ]),
         ],
       ),
     );
   }
 
-  Widget _buildOrderItems(Order order, LanguageProvider languageProvider,
-      bool isExpanded, bool hasMultipleBooks) {
+  Widget _buildMedicineSection(
+    List<Map<String, dynamic>> items,
+    LanguageProvider lp,
+    bool isExpanded,
+    int orderId,
+  ) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
           child: Row(
             children: [
-              Icon(Icons.menu_book, size: 18, color: Colors.grey[700]),
+              const Icon(Icons.medication_liquid, color: Colors.grey),
               const SizedBox(width: 8),
               Text(
-                languageProvider.isBangla ? 'বইসমূহ' : 'Books',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey[700],
-                ),
+                lp.isBangla ? "ওষুধসমূহ" : "Medicines",
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
               const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0F0F0),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  '${order.orderItems.length} ${languageProvider.isBangla ? 'টি' : 'items'}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ),
+              Text("${items.length} items"),
             ],
           ),
         ),
-        // Show books based on expansion state
-        if (isExpanded || !hasMultipleBooks)
-          ...order.orderItems
-              .map((item) => _buildBookItem(item, languageProvider))
-        else
-          _buildBookItem(order.orderItems.first, languageProvider),
 
-        // Show expand/collapse button if there are multiple books
-        if (hasMultipleBooks)
-          _buildExpandButton(order, languageProvider, isExpanded),
+        // Items (expanded or first only)
+        if (isExpanded)
+          ...items.map((e) => _medicineItem(e))
+        else
+          _medicineItem(items.first),
+
+        if (items.length > 1)
+          TextButton(
+            onPressed: () => setState(() => _toggleOrderExpand(orderId)),
+            child: Text(isExpanded ? "Show Less" : "Show More"),
+          )
       ],
     );
   }
 
-  Widget _buildExpandButton(
-      Order order, LanguageProvider languageProvider, bool isExpanded) {
+  Widget _medicineItem(Map<String, dynamic> item) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-      child: GestureDetector(
-        onTap: () => _toggleOrderExpansion(order.id),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8F9FA),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFFE0E0E0)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                isExpanded
-                    ? (languageProvider.isBangla ? 'কম দেখান' : 'Show Less')
-                    : (languageProvider.isBangla
-                        ? 'আরও ${order.orderItems.length - 1}টি বই দেখান'
-                        : 'Show ${order.orderItems.length - 1} More Books'),
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF2C3E50),
-                ),
-              ),
-              const SizedBox(width: 8),
-              AnimatedRotation(
-                turns: isExpanded ? 0.5 : 0,
-                duration: const Duration(milliseconds: 200),
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.grey[600],
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBookItem(OrderItem item, LanguageProvider languageProvider) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFAFAFA),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+        color: const Color(0xFFF8F9FA),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Row(
         children: [
-          _buildBookImage(item.book),
+          _medicineImage(item["image"]),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.book.nameBN,
+                  item["name"],
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2C3E50),
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                      fontSize: 15, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE8F5E8),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '৳${item.price.toStringAsFixed(0)} ${item.currency}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF2E7D32),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE3F2FD),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        'Qty: ${item.quantity}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF1976D2),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(
-                      'Total: ৳${(item.price * item.quantity).toStringAsFixed(0)} ${item.currency}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2C3E50),
-                      ),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 6),
+                Text("৳${item["price"]} • Qty: ${item["qty"]}",
+                    style: TextStyle(color: Colors.grey[700])),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  Widget _buildBookImage(OrderBook book) {
+  Widget _medicineImage(String? url) {
     return Container(
       width: 60,
-      height: 80,
+      height: 60,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Image.network(
-          book.image?.url ?? '',
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => Container(
-            color: const Color(0xFFF0F0F0),
-            child: const Icon(
-              Icons.book,
-              color: Color(0xFF9E9E9E),
-              size: 30,
-            ),
-          ),
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              color: const Color(0xFFF0F0F0),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF9E9E9E)),
-                ),
-              ),
-            );
-          },
-        ),
+        borderRadius: BorderRadius.circular(12),
+        child: url == null || url.isEmpty
+            ? const Icon(Icons.medication, size: 30, color: Colors.grey)
+            : Image.network(url,
+                fit: BoxFit.cover,
+                errorBuilder: (c, e, s) => const Icon(Icons.medication)),
       ),
     );
   }
-
-  Widget _buildEmptyState(LanguageProvider languageProvider, bool isSearching) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F0F0),
-                borderRadius: BorderRadius.circular(60),
-              ),
-              child: Icon(
-                isSearching ? Icons.search_off : Icons.shopping_bag_outlined,
-                size: 60,
-                color: const Color(0xFF9E9E9E),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              isSearching
-                  ? (languageProvider.isBangla
-                      ? "কোনো ফলাফল পাওয়া যায়নি"
-                      : "No Results Found")
-                  : (languageProvider.isBangla
-                      ? "কোনো অর্ডার পাওয়া যায়নি"
-                      : "No Orders Found"),
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF2C3E50),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              isSearching
-                  ? (languageProvider.isBangla
-                      ? "আপনার অনুসন্ধানের সাথে মিলে যায় এমন কোনো অর্ডার পাওয়া যায়নি"
-                      : "No orders match your search criteria")
-                  : (languageProvider.isBangla
-                      ? "আপনার অর্ডার ইতিহাস এখানে দেখানো হবে"
-                      : "Your order history will appear here"),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
-            ),
-            if (isSearching) ...[
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  _searchController.clear();
-                  // context.read<MyOrderViewModel>().clearSearch();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text(
-                  languageProvider.isBangla
-                      ? "সব অর্ডার দেখান"
-                      : "Show All Orders",
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  // void _showReviewDialog(OrderBook book, MyOrderViewModel orderVM) {
-  //   _reviewController.clear();
-  //   _selectedRating = 0;
-  //
-  //   showDialog(
-  //     barrierDismissible: true,
-  //     context: context,
-  //     builder: (_) {
-  //       return BounchingDialog(
-  //         width: screenSize(context, 0.6),
-  //         height: screenSize(context, .8),
-  //         child: StatefulBuilder(
-  //           builder: (context, setState) {
-  //             return Padding(
-  //               padding: const EdgeInsets.symmetric(horizontal: 20),
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   const SizedBox(height: 12),
-  //                   Row(
-  //                     children: List.generate(5, (index) {
-  //                       return IconButton(
-  //                         icon: Icon(
-  //                           index < _selectedRating ? Icons.star : Icons.star_border,
-  //                           color: Colors.amber,
-  //                           size: 32,
-  //                         ),
-  //                         onPressed: () {
-  //                           setState(() {
-  //                             _selectedRating = index + 1;
-  //                           });
-  //                         },
-  //                       );
-  //                     }),
-  //                   ),
-  //                   const SizedBox(height: 8),
-  //                   Text(
-  //                     "Let everyone know your opinion about this book",
-  //                     style: Theme.of(context)
-  //                         .textTheme
-  //                         .bodyMedium
-  //                         ?.copyWith(color: Colors.grey[600]),
-  //                   ),
-  //                   const SizedBox(height: 10),
-  //                   if (_selectedRating > 0)
-  //                     Column(
-  //                       crossAxisAlignment: CrossAxisAlignment.end,
-  //                       children: [
-  //                         TextFormField(
-  //                           controller: _reviewController,
-  //                           decoration: InputDecoration(
-  //                             labelText: "Review",
-  //                             prefixIcon: const Icon(Icons.text_fields_outlined),
-  //                             border: OutlineInputBorder(
-  //                               borderRadius: BorderRadius.circular(12),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         const SizedBox(height: 7),
-  //                         ElevatedButton(
-  //                           onPressed: () => _submitReview(book, orderVM),
-  //                           child: const Text("Submit Review"),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Widget _buildErrorState(MyOrderViewModel orderVM) {
-  //   return Center(
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Text(userProfile == null
-  //             ? "Please log in to continue."
-  //             : "Error: ${orderVM.error}"),
-  //         const SizedBox(height: 16),
-  //         ElevatedButton(
-  //           onPressed: () {
-  //             if (userProfile != null) {
-  //               orderVM.fetchMyOrder(refresh: true);
-  //             } else {
-  //               Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(builder: (_) => const LoggedOutScreen()),
-  //               );
-  //             }
-  //           },
-  //           child: Text(userProfile == null ? "Login" : "Retry"),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

@@ -36,7 +36,7 @@ class ThemeProvider with ChangeNotifier {
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.white,
-    primaryColor: AppColors.yellow,
+    primaryColor: AppColors.buttonColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.white,
       foregroundColor: AppColors.black,
@@ -59,19 +59,19 @@ class ThemeProvider with ChangeNotifier {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.yellow,
+        backgroundColor: AppColors.buttonColor,
         foregroundColor: AppColors.black,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: AppColors.yellow),
-        foregroundColor: AppColors.yellow,
-        backgroundColor: AppColors.yellow,
+        side: const BorderSide(color: AppColors.buttonColor),
+        foregroundColor: AppColors.buttonColor,
+        backgroundColor: AppColors.buttonColor,
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.yellow,
+      seedColor: AppColors.buttonColor,
       brightness: Brightness.light, // for light theme
     ),
   );
@@ -79,7 +79,7 @@ class ThemeProvider with ChangeNotifier {
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.black,
-    primaryColor: AppColors.yellow,
+    primaryColor: AppColors.buttonColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.black,
       foregroundColor: AppColors.white,
@@ -93,22 +93,22 @@ class ThemeProvider with ChangeNotifier {
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: AppColors.white),
       bodyMedium: TextStyle(color: AppColors.white),
-      titleLarge: TextStyle(color: AppColors.yellow),
+      titleLarge: TextStyle(color: AppColors.buttonColor),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.yellow,
+        backgroundColor: AppColors.buttonColor,
         foregroundColor: AppColors.black,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: AppColors.yellow),
-        foregroundColor: AppColors.yellow,
+        side: const BorderSide(color: AppColors.buttonColor),
+        foregroundColor: AppColors.buttonColor,
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.yellow,
+      seedColor: AppColors.buttonColor,
       brightness: Brightness.dark,
     ),
   );

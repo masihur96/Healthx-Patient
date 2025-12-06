@@ -294,7 +294,7 @@ class _MedicineCard extends StatelessWidget {
                     icon: Icon(
                       Icons.add_shopping_cart,
                       size: 18,
-                      color: AppColors.yellow,
+                      color: AppColors.buttonColor,
                     ),
                   )
                 ],

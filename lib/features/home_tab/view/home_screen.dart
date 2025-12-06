@@ -19,12 +19,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final auth = AuthUser(); // Replace with Provider later
 
     return Scaffold(
-     // KEEPING YOUR OLD APPBAR
+      // KEEPING YOUR OLD APPBAR
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 32),
             _customAppBar(auth),
             // _welcomeHeader(auth),
             const SizedBox(height: 12),
@@ -258,7 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.blue.shade700,
-
                         )),
                   ],
                 ),

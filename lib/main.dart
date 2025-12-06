@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthx_patient/configs/app_localizations.dart';
-import 'package:healthx_patient/configs/custom_theme.dart';
 import 'package:healthx_patient/shared/providers/language_provider.dart';
 import 'package:healthx_patient/shared/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -85,25 +84,24 @@ class MyApp extends StatelessWidget {
 
         return Consumer2<ThemeProvider, LanguageProvider>(
           builder: (context, themeProvider, languageProvider, child) {
-            // final theme = themeProvider.getTheme();
+            final theme = themeProvider.getTheme();
 
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   SystemChrome.setSystemUIOverlayStyle(
-            //     SystemUiOverlayStyle(
-            //       statusBarColor: theme.brightness == Brightness.dark
-            //           ? Colors.transparent
-            //           : Colors.white,
-            //       statusBarIconBrightness: theme.brightness == Brightness.dark
-            //           ? Brightness.light
-            //           : Brightness.dark,
-            //     ),
-            //   );
-            // });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              SystemChrome.setSystemUIOverlayStyle(
+                SystemUiOverlayStyle(
+                  statusBarColor: theme.brightness == Brightness.dark
+                      ? Colors.transparent
+                      : Colors.white,
+                  statusBarIconBrightness: theme.brightness == Brightness.dark
+                      ? Brightness.light
+                      : Brightness.dark,
+                ),
+              );
+            });
 
             return MaterialApp(
               title: 'Healthx App',
-              theme: CustomTheme.lightTheme,
-              darkTheme: CustomTheme.darkTheme,
+              theme: theme,
               debugShowCheckedModeBanner: false,
               locale: DevicePreview.locale(context) ??
                   languageProvider.currentLocale,

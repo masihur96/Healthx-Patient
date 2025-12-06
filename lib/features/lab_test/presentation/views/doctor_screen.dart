@@ -229,7 +229,7 @@ class _SearchBar extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.yellow),
+          borderSide: const BorderSide(color: AppColors.buttonColor),
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 14),
       ),

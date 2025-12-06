@@ -86,90 +86,88 @@ class _DoctorScreenState extends State<DoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                widget.isForm
-                    ? IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back_ios_outlined))
-                    : SizedBox(),
-                Text(
-                  'Find a Doctor',
-                  style: TextStyle(
-                      fontSize: screenSize(context, .05),
-                      fontWeight: FontWeight.w600),
-                ),
-                Spacer(),
-                IconButton(
-                  onPressed: _openFiltersSheet,
-                  icon: const Icon(Icons.tune_rounded),
-                ),
-                Builder(
-                  builder: (ctx) => GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Icon(
-                        Icons.menu,
-                        size: screenSize(context, .08),
-                      ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              widget.isForm
+                  ? IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios_outlined))
+                  : SizedBox(),
+              Text(
+                'Find a Doctor',
+                style: TextStyle(
+                    fontSize: screenSize(context, .05),
+                    fontWeight: FontWeight.w600),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: _openFiltersSheet,
+                icon: const Icon(Icons.tune_rounded),
+              ),
+              Builder(
+                builder: (ctx) => GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Icon(
+                      Icons.menu,
+                      size: screenSize(context, .08),
                     ),
-                    onTap: () {
-                      z.toggle?.call();
-                      HapticFeedback.selectionClick();
-                    },
                   ),
+                  onTap: () {
+                    z.toggle?.call();
+                    HapticFeedback.selectionClick();
+                  },
                 ),
-                const SizedBox(width: 8),
-              ],
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 12,
             ),
-            Padding(
+            child: _SearchBar(
+              controller: _searchCtrl,
+              onChanged: (_) => setState(() {}),
+            ),
+          ),
+          _QuickFilters(
+            specialties: _specialties,
+            selectedSpecialty: _selectedSpecialty,
+            onSpecialtyChanged: (v) => setState(() => _selectedSpecialty = v),
+            availability: _selectedAvailability,
+            onAvailabilityChanged: (v) =>
+                setState(() => _selectedAvailability = v),
+            type: _selectedType,
+            onTypeChanged: (v) => setState(() => _selectedType = v),
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: ListView.separated(
               padding: const EdgeInsets.symmetric(
-                vertical: 12,
+                vertical: 16,
               ),
-              child: _SearchBar(
-                controller: _searchCtrl,
-                onChanged: (_) => setState(() {}),
-              ),
+              itemBuilder: (context, index) {
+                final d = _filteredDoctors[index];
+                return _DoctorCard(
+                  data: d,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      RouteGenerator.doctorDetailRoute,
+                      arguments: d,
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemCount: _filteredDoctors.length,
             ),
-            _QuickFilters(
-              specialties: _specialties,
-              selectedSpecialty: _selectedSpecialty,
-              onSpecialtyChanged: (v) => setState(() => _selectedSpecialty = v),
-              availability: _selectedAvailability,
-              onAvailabilityChanged: (v) =>
-                  setState(() => _selectedAvailability = v),
-              type: _selectedType,
-              onTypeChanged: (v) => setState(() => _selectedType = v),
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                ),
-                itemBuilder: (context, index) {
-                  final d = _filteredDoctors[index];
-                  return _DoctorCard(
-                    data: d,
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        RouteGenerator.doctorDetailRoute,
-                        arguments: d,
-                      );
-                    },
-                  );
-                },
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemCount: _filteredDoctors.length,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -273,7 +271,7 @@ class _SearchBar extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.yellow),
+          borderSide: const BorderSide(color: AppColors.buttonColor),
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 14),
       ),

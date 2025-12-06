@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                   _login(authVM, context);
                 },
                 title: 'Sign In',
-                bgColor: AppColors.yellow,
+                bgColor: AppColors.buttonColor,
               ),
               const SizedBox(height: 24),
               Row(
@@ -191,8 +191,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (_) => RegistrationScreen()),
+                        MaterialPageRoute(builder: (_) => RegistrationScreen()),
                       );
                     },
                     child: Text(

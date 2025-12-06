@@ -376,7 +376,7 @@ class _RegistrationScreenState extends State<RegistrationScreen>
                           }
                         },
                         title: 'Sign Up',
-                        bgColor: AppColors.yellow,
+                        bgColor: AppColors.buttonColor,
                       ),
                       SizedBox(height: screenSize(context, .05)),
                       // Sign In link

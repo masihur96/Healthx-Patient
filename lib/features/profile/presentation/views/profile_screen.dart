@@ -410,9 +410,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             //   await getUser();
                             // }
                           },
-                          child: Text(languageProvider.isBangla
-                              ? "প্রোফাইল সম্পাদনা"
-                              : "Edit Profile")),
+                          child: Text(
+                            languageProvider.isBangla
+                                ? "প্রোফাইল সম্পাদনা"
+                                : "Edit Profile",
+                            style: TextStyle(color: Colors.white),
+                          )),
                     ),
                   ],
                 ),
@@ -456,7 +459,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => MyOrderScreen(),
+                        builder: (_) => MedicineOrderScreen(),
                       ),
                     );
                     // Handle purchased books action

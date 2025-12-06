@@ -11,46 +11,59 @@ class RefundScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
 
-    // Refund info data in Bangla and English
+    // Telemedicine Refund and Policy Information
     final refundInfo = [
       {
-        'bn': 'অনুজ প্রকাশনী থেকে বই অর্ডার করার জন্য আপনাকে অনেক ধন্যবাদ।',
-        'en': 'Thank you for ordering books from Anuj Publication.',
+        'bn': 'আমাদের টেলিমেডিসিন সেবা ব্যবহারের জন্য আপনাকে ধন্যবাদ।',
+        'en': 'Thank you for using our telemedicine service.',
       },
       {
         'bn':
-            'অনুজ প্রকাশনী সবসময় নিজেদের বইয়ের কোয়ালিটিতে সর্বোচ্চ শ্রম দেওয়া চেষ্টা করে যেন বইয়ে প্রিন্টিং কোয়ালিটিতে কোনো ত্রুটি না থাকে। তবে মানুষ মাত্রেই ভুল। ভুলবশত যদি বইয়ের ডেলিভারির সময় যদি বইয়ের প্রিন্টিং কোয়ালিটিতে কোনোরকম ত্রুটি থাকে, তবে সেটার জন্য খুবই সুন্দর সমাধান অনুজ রেখেছে।',
+            'আপনার স্বাস্থ্য পরামর্শ সর্বোচ্চ মান বজায় রেখে সঠিকভাবে পৌঁছে দেওয়াই আমাদের লক্ষ্য। তবে নেটওয়ার্ক সমস্যা বা অন্য যেকোনো কারণে ডাক্তার পরামর্শ দিতে না পারলে আপনার পেমেন্ট সুরক্ষিত থাকে।',
         'en':
-            'Anuj Publication always strives to ensure the highest quality in printing its books. However, mistakes can happen. If by chance there is any printing defect in your book upon delivery, Anuj has a proper solution in place.',
+            'Our goal is to provide high-quality medical consultation. However, if the doctor cannot complete the consultation due to technical or network issues, your payment remains secured.',
       },
       {
         'bn':
-            'প্রথমত অর্ডার করার সময় আপনি চাইলে ক্যাশ অন হোম ডেলিভারিতে অর্ডার করতে পারবেন। সেক্ষেত্রে বই আপনার বাসায় পৌঁছানোর পর আপনি সেই পার্সেল খুলে বের করে চেক করে এরপর ডেলিভারি ম্যানকে টাকা দিতে পারবেন।',
+            'যদি ডাক্তার নির্ধারিত সময়ে কল না করেন বা কনসালটেশন সম্পূর্ণ না হয়, সেক্ষেত্রে আপনি রিফান্ডের জন্য আবেদন করতে পারবেন।',
         'en':
-            'Firstly, you can choose Cash on Home Delivery when placing your order. In this case, you can check the parcel at home before paying the delivery person.',
+            'If the doctor does not call at the scheduled time or the consultation remains incomplete, you can request a refund.',
       },
       {
         'bn':
-            'এছাড়াও আরো একটা উপায় হলো বইয়ের প্রিন্টিং কোয়ালিটিতে যদি কোনো ত্রুটি থাকে যাবে বই ডেলিভারি হবার ৩ দিনের মধ্যেই উপযুক্ত প্রমানসহ 01317-466054 এই নম্বরে হোয়াটস্যাপ করবেন। তখন আমরা বইটি পাল্টে দেয়ার ব্যবস্থা করবো।',
+            'রিফান্ড আবেদন করতে, অ্যাপের “Support” সেকশনে যান এবং সমস্যার বিস্তারিত লিখে সাবমিট করুন। যাচাইয়ের পর ৩-৫ কার্যদিবসের মধ্যে রিফান্ড সম্পন্ন হবে।',
         'en':
-            'Alternatively, if there is any printing defect, you can WhatsApp proof to 01317-466054 within 3 days of delivery. We will arrange to replace the book.',
+            'To request a refund, go to the “Support” section in the app and submit your issue. After verification, refunds are processed within 3–5 business days.',
+      },
+      {
+        'bn':
+            'যদি ডাক্তার আংশিক সময় পরামর্শ দেন বা কনসালটেশন মাঝপথে নেটওয়ার্ক সমস্যায় বন্ধ হয়ে যায়, আমরা পুনরায় কলের জন্য সময় নির্ধারণ করে দেবো।',
+        'en':
+            'If the consultation was partially completed or interrupted due to network issues, we will arrange a rescheduled call for you.',
+      },
+      {
+        'bn':
+            'যেসব ক্ষেত্রে রিফান্ড প্রযोज্য নয়:\n• কনসালটেশন সফলভাবে সম্পন্ন হলে\n• প্রেসক্রিপশন ইস্যু হওয়ার পর\n• শিডিউল বাদে দেরিতে অনুরোধ করলে',
+        'en':
+            'Refund is not applicable in the following cases:\n• Consultation completed successfully\n• Prescription has already been issued\n• Refund requested after the allowed timeframe',
+      },
+      {
+        'bn':
+            'যেকোনো রিফান্ড, কনসালটেশন বা প্রেসক্রিপশন সংক্রান্ত সমস্যায় আমাদের হেল্পলাইনে যোগাযোগ করুন: 013XX-XXXXXX',
+        'en':
+            'For any refund, consultation, or prescription-related issue, contact our support helpline: 013XX-XXXXXX',
       },
     ];
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
         title: Text(languageProvider.isBangla
-            ? 'রিফান্ড ও বুক চেক'
-            : 'Refund & Book Check'),
+            ? 'রিফান্ড ও নীতিমালা'
+            : 'Refund & Policy'),
         centerTitle: true,
       ),
       body: Padding(
@@ -60,12 +73,15 @@ class RefundScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             final info = refundInfo[index];
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
                 languageProvider.isBangla ? info['bn']! : info['en']!,
                 style: TextStyle(
                   fontSize: 16,
-                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                  height: 1.5,
+                  color: themeProvider.isDarkMode
+                      ? Colors.grey[300]
+                      : Colors.black87,
                 ),
               ),
             );
