@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../doctor/presentation/views/cart_scope.dart';
 import '../../../doctor/presentation/views/cart_screen.dart';
 import 'medicine_models.dart';
 
@@ -17,10 +16,15 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final m = widget.medicine;
-    final cart = CartScope.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Medicine Details')),
+      appBar: AppBar(
+        title: const Text('Medicine Details'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_outlined)),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -30,43 +34,45 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
               aspectRatio: 1.5,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(m.imageUrl, fit: BoxFit.cover),
+                child: Image.asset("assets/images/medicine.jpg",
+                    fit: BoxFit.cover),
               ),
             ),
             const SizedBox(height: 12),
-            Text(m.name,
+            Text(widget.medicine.name,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
             const SizedBox(height: 4),
-            Text(m.brand,
+            Text(widget.medicine.brand,
                 style: TextStyle(
                     color: Theme.of(context).textTheme.bodySmall?.color)),
             const SizedBox(height: 8),
             Row(
               children: [
-                Chip(label: Text(m.dosage)),
+                Chip(label: Text(widget.medicine.dosage)),
                 const SizedBox(width: 8),
-                Chip(label: Text(m.packaging)),
+                Chip(label: Text(widget.medicine.packaging)),
               ],
             ),
             const SizedBox(height: 8),
             Row(
               children: [
-                Text('\$${m.price.toStringAsFixed(2)}',
+                Text('৳${widget.medicine.price.toStringAsFixed(2)}',
                     style: const TextStyle(
                         fontSize: 22, fontWeight: FontWeight.bold)),
                 const SizedBox(width: 12),
-                Icon(m.inStock ? Icons.check_circle : Icons.cancel,
-                    color: m.inStock ? Colors.green : Colors.red),
+                Icon(
+                    widget.medicine.inStock ? Icons.check_circle : Icons.cancel,
+                    color: widget.medicine.inStock ? Colors.green : Colors.red),
                 const SizedBox(width: 4),
-                Text(m.inStock ? 'In stock' : 'Out of stock'),
+                Text(widget.medicine.inStock ? 'In stock' : 'Out of stock'),
               ],
             ),
             const SizedBox(height: 12),
             const Text('Description',
                 style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 6),
-            Text(m.description),
+            Text(widget.medicine.description),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -94,16 +100,20 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                 ),
                 const Spacer(),
                 ElevatedButton.icon(
-                  onPressed: m.inStock
+                  onPressed: widget.medicine.inStock
                       ? () {
-                          cart.add(m, qty: qty);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('${m.name} added to cart')),
-                          );
+                          // cart.add(m, qty: qty);
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(content: Text('${m.name} added to cart')),
+                          // );
                         }
                       : null,
-                  icon: const Icon(Icons.add_shopping_cart),
-                  label: const Text('Add to Cart'),
+                  icon:
+                      const Icon(Icons.add_shopping_cart, color: Colors.white),
+                  label: const Text(
+                    'Add to Cart',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),

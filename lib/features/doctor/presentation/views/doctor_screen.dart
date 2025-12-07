@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthx_patient/configs/custom_size.dart';
+import 'package:healthx_patient/configs/custom_theme.dart';
 import 'package:healthx_patient/configs/route_generator.dart';
 import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
@@ -86,88 +87,99 @@ class _DoctorScreenState extends State<DoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Column(
             children: [
-              widget.isForm
-                  ? IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(Icons.arrow_back_ios_outlined))
-                  : SizedBox(),
-              Text(
-                'Find a Doctor',
-                style: TextStyle(
-                    fontSize: screenSize(context, .05),
-                    fontWeight: FontWeight.w600),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: _openFiltersSheet,
-                icon: const Icon(Icons.tune_rounded),
-              ),
-              Builder(
-                builder: (ctx) => GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Icon(
-                      Icons.menu,
-                      size: screenSize(context, .08),
-                    ),
+              Row(
+                children: [
+                  widget.isForm
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back_ios_outlined))
+                      : SizedBox(),
+                  SizedBox(
+                    width: 10,
                   ),
-                  onTap: () {
-                    z.toggle?.call();
-                    HapticFeedback.selectionClick();
-                  },
+                  Text(
+                    'Find a Doctor',
+                    style: TextStyle(
+                        fontSize: screenSize(context, .05),
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: _openFiltersSheet,
+                    icon: const Icon(Icons.tune_rounded),
+                  ),
+                  widget.isForm
+                      ? SizedBox()
+                      : Builder(
+                          builder: (ctx) => GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Icon(
+                                Icons.menu,
+                                size: screenSize(context, .08),
+                              ),
+                            ),
+                            onTap: () {
+                              z.toggle?.call();
+                              HapticFeedback.selectionClick();
+                            },
+                          ),
+                        ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                ),
+                child: _SearchBar(
+                  controller: _searchCtrl,
+                  onChanged: (_) => setState(() {}),
                 ),
               ),
-              const SizedBox(width: 8),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 12,
-            ),
-            child: _SearchBar(
-              controller: _searchCtrl,
-              onChanged: (_) => setState(() {}),
-            ),
-          ),
-          _QuickFilters(
-            specialties: _specialties,
-            selectedSpecialty: _selectedSpecialty,
-            onSpecialtyChanged: (v) => setState(() => _selectedSpecialty = v),
-            availability: _selectedAvailability,
-            onAvailabilityChanged: (v) =>
-                setState(() => _selectedAvailability = v),
-            type: _selectedType,
-            onTypeChanged: (v) => setState(() => _selectedType = v),
-          ),
-          const SizedBox(height: 12),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
+              _QuickFilters(
+                specialties: _specialties,
+                selectedSpecialty: _selectedSpecialty,
+                onSpecialtyChanged: (v) =>
+                    setState(() => _selectedSpecialty = v),
+                availability: _selectedAvailability,
+                onAvailabilityChanged: (v) =>
+                    setState(() => _selectedAvailability = v),
+                type: _selectedType,
+                onTypeChanged: (v) => setState(() => _selectedType = v),
               ),
-              itemBuilder: (context, index) {
-                final d = _filteredDoctors[index];
-                return _DoctorCard(
-                  data: d,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      RouteGenerator.doctorDetailRoute,
-                      arguments: d,
+              const SizedBox(height: 12),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                  ),
+                  itemBuilder: (context, index) {
+                    final d = _filteredDoctors[index];
+                    return _DoctorCard(
+                      data: d,
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          RouteGenerator.doctorDetailRoute,
+                          arguments: d,
+                        );
+                      },
                     );
                   },
-                );
-              },
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemCount: _filteredDoctors.length,
-            ),
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemCount: _filteredDoctors.length,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -402,67 +414,75 @@ class _DoctorCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12), // your desired radius
-                child: Image.asset(
-                  data['avatar'],
-                  fit: BoxFit.cover,
-                  width: 100,
-                  height: 100,
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: boxStyle(),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(12), // your desired radius
+                  child: Image.asset(
+                    data['avatar'],
+                    fit: BoxFit.cover,
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(data['name'],
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 2),
-                    Text(data['specialty'],
-                        style: TextStyle(color: Colors.grey.shade600)),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        const Icon(Icons.star_rounded,
-                            color: Colors.amber, size: 18),
-                        const SizedBox(width: 4),
-                        Text('${data['rating']}'),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.badge_rounded, size: 18),
-                        const SizedBox(width: 4),
-                        Text(data['experience']),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Row(
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(data['name'],
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 2),
+                      Text(data['specialty'],
+                          style: TextStyle(color: Colors.grey.shade600)),
+                      const SizedBox(height: 6),
+                      Row(
                         children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 30,
-                              child: ElevatedButton(
-                                onPressed: onTap,
-                                child: const Text('Consult Now'),
-                              ),
-                            ),
-                          ),
+                          const Icon(Icons.star_rounded,
+                              color: Colors.amber, size: 18),
+                          const SizedBox(width: 4),
+                          Text('${data['rating']}'),
+                          const SizedBox(width: 12),
+                          const Icon(Icons.badge_rounded, size: 18),
+                          const SizedBox(width: 4),
+                          Text(data['experience']),
                         ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 30,
+                                child: ElevatedButton(
+                                  onPressed: onTap,
+                                  child: const Text(
+                                    'Consult Now',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-            ],
+                const SizedBox(width: 12),
+              ],
+            ),
           ),
         ),
       ),

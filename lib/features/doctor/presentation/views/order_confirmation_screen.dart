@@ -43,7 +43,10 @@ class OrderConfirmationScreen extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const MedicineScreen()),
+                  MaterialPageRoute(
+                      builder: (_) => const MedicineScreen(
+                            isForm: false,
+                          )),
                   (route) => false,
                 );
               },

@@ -4,13 +4,13 @@ import 'package:healthx_patient/configs/custom_size.dart';
 import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 
-import '../../../doctor/presentation/views/cart_scope.dart';
 import '../../../doctor/presentation/views/cart_screen.dart';
 import 'medicine_details_screen.dart';
 import 'medicine_models.dart';
 
 class MedicineScreen extends StatefulWidget {
-  const MedicineScreen({super.key});
+  final bool isForm;
+  const MedicineScreen({super.key, required this.isForm});
 
   @override
   State<MedicineScreen> createState() => _MedicineScreenState();
@@ -50,81 +50,91 @@ class _MedicineScreenState extends State<MedicineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CartScope(
-      notifier: _cart,
-      child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70),
-            child: Row(
-              children: [
-                Text(
-                  'Order Medicines',
-                  style: TextStyle(
-                      fontSize: screenSize(context, .05),
-                      fontWeight: FontWeight.w600),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const CartScreen()),
-                      );
-                    },
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        const Icon(Icons.shopping_cart_outlined, size: 26),
-                        Positioned(
-                          right: -6,
-                          top: -6,
-                          child: AnimatedBuilder(
-                            animation: _cart,
-                            builder: (context, _) {
-                              final count = _cart.itemCount;
-                              if (count == 0) return const SizedBox.shrink();
-                              return Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  '$count',
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 11),
-                                ),
-                              );
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  widget.isForm
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back_ios_outlined))
+                      : SizedBox(),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Order Medicines',
+                    style: TextStyle(
+                        fontSize: screenSize(context, .05),
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const CartScreen()),
+                        );
+                      },
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          const Icon(Icons.shopping_cart_outlined, size: 26),
+                          Positioned(
+                            right: -6,
+                            top: -6,
+                            child: AnimatedBuilder(
+                              animation: _cart,
+                              builder: (context, _) {
+                                final count = _cart.itemCount;
+                                if (count == 0) return const SizedBox.shrink();
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '$count',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 11),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  widget.isForm
+                      ? SizedBox()
+                      : Builder(
+                          builder: (ctx) => GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Icon(
+                                Icons.menu,
+                                size: screenSize(context, .08),
+                              ),
+                            ),
+                            onTap: () {
+                              z.toggle?.call();
+                              HapticFeedback.selectionClick();
                             },
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Builder(
-                  builder: (ctx) => GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Icon(
-                        Icons.menu,
-                        size: screenSize(context, .08),
-                      ),
-                    ),
-                    onTap: () {
-                      z.toggle?.call();
-                      HapticFeedback.selectionClick();
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
-            )),
-        body: SafeArea(
-          child: Column(
-            children: [
+                  const SizedBox(width: 8),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: TextField(
@@ -179,53 +189,50 @@ class _MedicineScreenState extends State<MedicineScreen> {
               ),
               const SizedBox(height: 8),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: LayoutBuilder(
-                    builder: (context, c) {
-                      final crossAxisCount = c.maxWidth > 800
-                          ? 4
-                          : c.maxWidth > 600
-                              ? 3
-                              : 2;
-                      final meds = _filtered();
-                      if (meds.isEmpty) {
-                        return const Center(child: Text('No medicines found'));
-                      }
-                      return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          childAspectRatio: 0.62,
-                        ),
-                        itemCount: meds.length,
-                        itemBuilder: (context, index) {
-                          final m = meds[index];
-                          return _MedicineCard(
-                            medicine: m,
-                            onOpen: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      MedicineDetailsScreen(medicine: m),
-                                ),
-                              );
-                            },
-                            onAdd: () {
-                              _cart.add(m);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('${m.name} added to cart'),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
+                child: LayoutBuilder(
+                  builder: (context, c) {
+                    final crossAxisCount = c.maxWidth > 800
+                        ? 4
+                        : c.maxWidth > 600
+                            ? 3
+                            : 2;
+                    final meds = _filtered();
+                    if (meds.isEmpty) {
+                      return const Center(child: Text('No medicines found'));
+                    }
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                        childAspectRatio: 0.65,
+                      ),
+                      itemCount: meds.length,
+                      itemBuilder: (context, index) {
+                        final m = meds[index];
+                        return _MedicineCard(
+                          medicine: m,
+                          onOpen: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    MedicineDetailsScreen(medicine: m),
+                              ),
+                            );
+                          },
+                          onAdd: () {
+                            _cart.add(m);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('${m.name} added to cart'),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -261,7 +268,7 @@ class _MedicineCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    medicine.imageUrl,
+                    "assets/images/medicine.jpg",
                     fit: BoxFit.cover,
                   ),
                 ),

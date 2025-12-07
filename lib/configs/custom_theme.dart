@@ -82,3 +82,19 @@
 //     ),
 //   );
 // }
+
+import 'package:flutter/material.dart';
+
+BoxDecoration boxStyle({double radius = 20}) {
+  return BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(radius),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.05),
+        blurRadius: 8,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  );
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthx_patient/configs/custom_size.dart';
+import 'package:healthx_patient/configs/custom_theme.dart';
 import 'package:healthx_patient/features/auth/data/models/auth_user.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 import 'package:healthx_patient/shared/app_snackbar.dart';
@@ -21,27 +22,30 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       // KEEPING YOUR OLD APPBAR
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _customAppBar(auth),
-            // _welcomeHeader(auth),
-            const SizedBox(height: 12),
-            _promoBanner(),
-            const SizedBox(height: 22),
-            _sectionTitle("Overview"),
-            const SizedBox(height: 12),
-            _quickAccessGrid(),
-            const SizedBox(height: 22),
-            _sectionTitle("Upcoming Appointment"),
-            const SizedBox(height: 12),
-            _appointmentCard(),
-            const SizedBox(height: 22),
-            _sectionTitle("Health Insights"),
-            const SizedBox(height: 12),
-            _insightCards(),
-            const SizedBox(height: 30),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _customAppBar(auth),
+              // _welcomeHeader(auth),
+              const SizedBox(height: 12),
+              _promoBanner(),
+              const SizedBox(height: 22),
+              _sectionTitle("Overview"),
+              const SizedBox(height: 12),
+              _quickAccessGrid(),
+              const SizedBox(height: 22),
+              _sectionTitle("Upcoming Appointment"),
+              const SizedBox(height: 12),
+              _appointmentCard(),
+              const SizedBox(height: 22),
+              _sectionTitle("Health Insights"),
+              const SizedBox(height: 12),
+              _insightCards(),
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );
@@ -53,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _welcomeHeader(AuthUser user) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: _boxStyle(),
+      decoration: boxStyle(),
       child: Row(
         children: [
           CircleAvatar(
@@ -130,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: Container(
             // padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-            decoration: _boxStyle(radius: 18),
+            decoration: boxStyle(radius: 18),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -162,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!hasAppointment) {
       return Container(
         padding: const EdgeInsets.all(20),
-        decoration: _boxStyle(),
+        decoration: boxStyle(),
         child: Column(
           children: [
             const Text(
@@ -181,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: _boxStyle(),
+      decoration: boxStyle(),
       child: Row(
         children: [
           Container(
@@ -239,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Container(
-      decoration: _boxStyle(),
+      decoration: boxStyle(),
       child: Column(
         children: data.map((item) {
           return Column(
@@ -293,20 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Text(
       title,
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-    );
-  }
-
-  BoxDecoration _boxStyle({double radius = 20}) {
-    return BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(radius),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          blurRadius: 8,
-          offset: const Offset(0, 3),
-        ),
-      ],
     );
   }
 

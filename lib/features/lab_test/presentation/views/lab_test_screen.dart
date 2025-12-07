@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthx_patient/configs/custom_size.dart';
+import 'package:healthx_patient/configs/custom_theme.dart';
 import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 
@@ -48,82 +49,89 @@ class _LabTestScreenState extends State<LabTestScreen> {
     ];
 
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70),
-          child: Row(
-            children: [
-              Text(
-                'Lab Tests & Diagnostics',
-                style: TextStyle(
-                    fontSize: screenSize(context, .05),
-                    fontWeight: FontWeight.w600),
-              ),
-              Spacer(),
-              Builder(
-                builder: (ctx) => GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Icon(
-                      Icons.menu,
-                      size: screenSize(context, .08),
-                    ),
-                  ),
-                  onTap: () {
-                    z.toggle?.call();
-                    HapticFeedback.selectionClick();
-                  },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Lab Tests & Diagnostics',
+                  style: TextStyle(
+                      fontSize: screenSize(context, .05),
+                      fontWeight: FontWeight.w600),
                 ),
-              ),
-              const SizedBox(width: 8),
-            ],
-          )),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          _buildSearchBar(context),
-          const SizedBox(height: 16),
-          _buildQuickActions(context),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Recommended Packages',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              // Could add a See all button later
-            ],
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 160,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, i) {
-                final p = recommended[i];
-                return _PackageCard(
-                  title: p['title'] as String,
-                  desc: p['desc'] as String,
-                  price: p['price'] as double,
-                  reportTime: p['report'] as String,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => TestDetailsScreen(
-                          testName: p['title'] as String,
-                          description: p['desc'] as String,
-                          parameters: const [],
-                          price: p['price'] as double,
-                          reportTime: p['report'] as String,
-                        ),
+                Spacer(),
+                Builder(
+                  builder: (ctx) => GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Icon(
+                        Icons.menu,
+                        size: screenSize(context, .08),
                       ),
-                    );
-                  },
-                );
-              },
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemCount: recommended.length,
+                    ),
+                    onTap: () {
+                      z.toggle?.call();
+                      HapticFeedback.selectionClick();
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            _buildSearchBar(context),
+            const SizedBox(height: 16),
+            _buildQuickActions(context),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text('Recommended Packages',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                // Could add a See all button later
+              ],
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: recommended.length,
+                itemBuilder: (_, i) {
+                  final p = recommended[i];
+
+                  return Column(
+                    children: [
+                      _PackageCard(
+                        title: p['title'] as String,
+                        desc: p['desc'] as String,
+                        price: p['price'] as double,
+                        reportTime: p['report'] as String,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TestDetailsScreen(
+                                testName: p['title'] as String,
+                                description: p['desc'] as String,
+                                parameters: const [],
+                                price: p['price'] as double,
+                                reportTime: p['report'] as String,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+
+                      const SizedBox(height: 12), // Vertical spacing
+                    ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -278,8 +286,10 @@ class _PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 260,
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: boxStyle(),
+      // width: 260,
       child: Material(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
@@ -295,9 +305,7 @@ class _PackageCard extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 6),
-                Expanded(
-                    child: Text(desc,
-                        maxLines: 2, overflow: TextOverflow.ellipsis)),
+                Text(desc, maxLines: 2, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 6),
                 Text('Report: $reportTime',
                     style: const TextStyle(fontSize: 12)),
@@ -371,7 +379,10 @@ class _FilterSheetState extends State<_FilterSheet> {
             child: ElevatedButton(
               onPressed: () => Navigator.of(context)
                   .pop({'sort': sort, 'home': homeCollection}),
-              child: const Text('Apply Filters'),
+              child: const Text(
+                'Apply Filters',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],

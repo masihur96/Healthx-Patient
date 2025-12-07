@@ -74,7 +74,7 @@ class _DrawerScreenState extends State<DrawerScreen>
         menuScreen: Theme(
           data: ThemeData.dark(),
           child: Scaffold(
-              backgroundColor: Color(0xff1A73E8) ,
+              backgroundColor: Color(0xff1A73E8),
 
               // Provider.of<ThemeProvider>(context).getIsDarkMode
               //     ? AKEColor.textColor
@@ -152,7 +152,9 @@ class _DrawerScreenState extends State<DrawerScreen>
                           HapticFeedback.selectionClick();
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => MedicineScreen(),
+                              builder: (_) => MedicineScreen(
+                                isForm: true,
+                              ),
                             ),
                           );
                         },
@@ -290,7 +292,6 @@ class _DrawerScreenState extends State<DrawerScreen>
               child: Text(
                 name,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-
                     color: Colors.white,
                     fontSize: screenSize(context, .04),
                     overflow: TextOverflow.ellipsis),

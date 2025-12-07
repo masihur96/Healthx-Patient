@@ -12,7 +12,14 @@ class DigitalReportScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Digital Reports')),
+      appBar: AppBar(
+        title: const Text('Digital Reports'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_outlined)),
+      ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
         itemCount: reports.length,
@@ -31,25 +38,19 @@ class DigitalReportScreen extends StatelessWidget {
                 children: [
                   if (available)
                     IconButton(
-                      tooltip: 'View Report',
-                      icon: const Icon(Icons.picture_as_pdf_outlined),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening PDF...')));
-                      },
-                    ),
-                  if (available)
-                    IconButton(
                       tooltip: 'Download PDF',
                       icon: const Icon(Icons.download_outlined),
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Downloading...')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Downloading...')));
                       },
                     ),
                   IconButton(
                     tooltip: 'Share with Doctor',
                     icon: const Icon(Icons.share_outlined),
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sharing...')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Sharing...')));
                     },
                   ),
                 ],
