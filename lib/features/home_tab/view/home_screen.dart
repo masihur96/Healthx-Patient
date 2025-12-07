@@ -4,6 +4,9 @@ import 'package:healthx_patient/configs/custom_size.dart';
 import 'package:healthx_patient/configs/custom_theme.dart';
 import 'package:healthx_patient/features/auth/data/models/auth_user.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
+import 'package:healthx_patient/features/lab_test/presentation/views/doctor_screen.dart';
+import 'package:healthx_patient/features/lab_test/presentation/views/lab_test_screen.dart';
+import 'package:healthx_patient/features/lab_test/presentation/views/medicine_screen.dart';
 import 'package:healthx_patient/shared/app_snackbar.dart';
 import 'package:healthx_patient/shared/avater_widget.dart';
 
@@ -130,6 +133,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return GestureDetector(
           onTap: () {
+            if (i == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => DoctorScreen()),
+              );
+            }
+            if (i == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => LabTestScreen()),
+              );
+            }
+            if (i == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => MedicineScreen()),
+              );
+            }
+            if (i == 3) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => HomeScreen()),
+              );
+            }
+            if (i == 4) {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (_) => Appointment()),
+              // );
+            }
+
             AppSnackBar.show(context, message: "${item["title"]} coming soon!");
           },
           child: Container(
