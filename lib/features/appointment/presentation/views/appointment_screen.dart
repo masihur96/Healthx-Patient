@@ -83,26 +83,43 @@ class _AppointmentScreenState extends State<AppointmentScreen>
                   ],
                 ),
               ),
-              // TabBar
-              TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: AppColors.buttonColor,
-                  borderRadius: BorderRadius.circular(12),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey.shade300),
+                  ),
                 ),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black87,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                child: TabBar(
+                  controller: _tabController,
+
+                  // Text Colors
+                  labelColor: AppColors.buttonColor, // Selected text color
+                  unselectedLabelColor:
+                      Colors.grey.shade600, // Unselected text color
+
+                  // Text Styles
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                  ),
+
+                  // Indicator Style
+                  indicatorColor: AppColors.buttonColor,
+                  indicatorWeight: 3,
+                  indicatorSize: TabBarIndicatorSize.tab,
+
+                  tabs: const [
+                    Tab(text: 'Upcoming'),
+                    Tab(text: 'Past'),
+                    Tab(text: 'Cancelled'),
+                  ],
                 ),
-                padding: EdgeInsets.all(10),
-                tabs: const [
-                  Tab(text: 'Upcoming'),
-                  Tab(text: 'Past'),
-                  Tab(text: 'Cancelled'),
-                ],
               ),
+
               const SizedBox(height: 16),
               // TabBarView
               Expanded(
