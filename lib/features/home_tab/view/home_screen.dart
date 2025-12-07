@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthx_patient/configs/custom_size.dart';
 import 'package:healthx_patient/configs/custom_theme.dart';
+import 'package:healthx_patient/features/appointment/presentation/views/appointment_screen.dart';
 import 'package:healthx_patient/features/auth/data/models/auth_user.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 import 'package:healthx_patient/features/lab_test/presentation/views/doctor_screen.dart';
@@ -142,7 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
             if (i == 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => LabTestScreen()),
+                MaterialPageRoute(
+                    builder: (_) => LabTestScreen(
+                          isForm: true,
+                        )),
               );
             }
             if (i == 2) {
@@ -152,16 +156,16 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             if (i == 3) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => HomeScreen()),
-              );
-            }
-            if (i == 4) {
               // Navigator.push(
               //   context,
-              //   MaterialPageRoute(builder: (_) => Appointment()),
+              //   MaterialPageRoute(builder: (_) => Health()),
               // );
+            }
+            if (i == 4) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => AppointmentScreen()),
+              );
             }
 
             AppSnackBar.show(context, message: "${item["title"]} coming soon!");

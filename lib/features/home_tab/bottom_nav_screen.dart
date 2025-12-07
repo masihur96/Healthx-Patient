@@ -24,7 +24,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     DoctorScreen(
       isForm: false,
     ),
-    LabTestScreen(),
+    LabTestScreen(
+      isForm: false,
+    ),
     MedicineScreen(
       isForm: false,
     ),
