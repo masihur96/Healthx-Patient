@@ -52,7 +52,7 @@ void main() async {
               );
             },
           ),
-          // ChangeNotifierProvider(create: (_) => DashboardViewModel()),
+          // ChangeNotifierProvider(create: (_) => AppointmentViewModel()),
           // ChangeNotifierProvider(create: (_) => CategoryViewModel()),
           // ChangeNotifierProvider(create: (_) => AuthorViewModel()),
           // ChangeNotifierProvider(create: (_) => BookViewModel()),

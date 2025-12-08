@@ -105,7 +105,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Find a Doctor',
+                    'Find a Doc tor',
                     style: TextStyle(
                         fontSize: screenSize(context, .05),
                         fontWeight: FontWeight.w600),

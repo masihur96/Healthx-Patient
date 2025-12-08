@@ -65,7 +65,9 @@ class _DateTimeSelectionScreenState extends State<DateTimeSelectionScreen> {
     return ChangeNotifierProvider.value(
       value: _viewModel,
       child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
         appBar: AppBar(
+          backgroundColor: AppColors.primaryColor,
           title: Text(
               _isReschedule ? 'Reschedule Appointment' : 'Select Date & Time'),
           leading: IconButton(
@@ -253,6 +255,7 @@ class _DateTimeSelectionScreenState extends State<DateTimeSelectionScreen> {
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.buttonColor,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: const Text(

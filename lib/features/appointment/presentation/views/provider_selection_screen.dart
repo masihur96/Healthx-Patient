@@ -143,14 +143,19 @@ class _ProviderSelectionScreenState extends State<ProviderSelectionScreen> {
                               _viewModel.clearFilters();
                             });
                           },
-                          child: const Text('Clear'),
+                          child: const Text(
+                            'Clear',
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Apply'),
+                          child: Text(
+                            'Apply',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ],
@@ -169,7 +174,9 @@ class _ProviderSelectionScreenState extends State<ProviderSelectionScreen> {
     return ChangeNotifierProvider.value(
       value: _viewModel,
       child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
         appBar: AppBar(
+          backgroundColor: AppColors.primaryColor,
           title: const Text('Select Provider'),
           leading: IconButton(
               onPressed: () {

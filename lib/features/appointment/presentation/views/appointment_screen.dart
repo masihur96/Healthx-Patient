@@ -67,21 +67,33 @@ class _AppointmentScreenState extends State<AppointmentScreen>
           child: Column(
             children: [
               // Header
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    Text(
-                      'Appointments',
-                      style: TextStyle(
-                        fontSize: screenSize(context, .05),
-                        fontWeight: FontWeight.w600,
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back_ios_outlined),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Appointments',
+                            style: TextStyle(
+                              fontSize: screenSize(context, .05),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
                       ),
                     ),
-                    const Spacer(),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Container(
                 decoration: BoxDecoration(
