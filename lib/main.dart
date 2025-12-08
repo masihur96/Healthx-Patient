@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
 
             return MaterialApp(
               title: 'Healthx App',
-              theme: theme,
+              theme: ThemeProvider.lightTheme,
               debugShowCheckedModeBanner: false,
               locale: DevicePreview.locale(context) ??
                   languageProvider.currentLocale,

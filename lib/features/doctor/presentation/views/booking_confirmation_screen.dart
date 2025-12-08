@@ -6,7 +6,8 @@ class BookingConfirmationScreen extends StatefulWidget {
   const BookingConfirmationScreen({super.key, required this.payload});
 
   @override
-  State<BookingConfirmationScreen> createState() => _BookingConfirmationScreenState();
+  State<BookingConfirmationScreen> createState() =>
+      _BookingConfirmationScreenState();
 }
 
 class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
@@ -21,7 +22,16 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
     final fee = doctor['fee'] ?? 0;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Confirm Booking')),
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: const Text('Confirm Booking'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_outlined),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         child: Column(
@@ -35,7 +45,8 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
             const SizedBox(height: 12),
             _InfoTile(
               title: 'Appointment',
-              subtitle: '${date.day}/${date.month}/${date.year}  •  $time  •  $type',
+              subtitle:
+                  '${date.day}/${date.month}/${date.year}  •  $time  •  $type',
             ),
             const SizedBox(height: 12),
             Material(
@@ -46,11 +57,14 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Payment Method', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    const Text('Payment Method',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600)),
                     RadioListTile<String>(
                       value: 'Wallet',
                       groupValue: _payment,
-                      onChanged: (v) => setState(() => _payment = v ?? 'Wallet'),
+                      onChanged: (v) =>
+                          setState(() => _payment = v ?? 'Wallet'),
                       title: const Text('Wallet'),
                     ),
                     RadioListTile<String>(
@@ -78,7 +92,8 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                     context: context,
                     builder: (_) => AlertDialog(
                       title: const Text('Your appointment is confirmed!'),
-                      content: const Text('We have sent the details to your phone and email.'),
+                      content: const Text(
+                          'We have sent the details to your phone and email.'),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
@@ -90,7 +105,10 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                   if (!mounted) return;
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
-                child: const Text('Confirm Booking'),
+                child: const Text(
+                  'Confirm Booking',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ],

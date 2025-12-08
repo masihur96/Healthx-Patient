@@ -11,6 +11,7 @@ import 'package:healthx_patient/features/appointment/presentation/views/appointm
 import 'package:healthx_patient/features/appointment/presentation/views/appointment_success_screen.dart';
 import 'package:healthx_patient/features/appointment/presentation/views/appointment_management_screen.dart';
 import 'package:healthx_patient/features/appointment/data/models/appointment_model.dart';
+import 'package:healthx_patient/features/home_tab/view/search_screen.dart';
 
 class RouteGenerator {
   static const String loginRoute = '/login';
@@ -18,6 +19,7 @@ class RouteGenerator {
   static const String registerRoute = '/register';
   static const String homeRoute = '/home';
   static const String splashRoute = '/';
+  static const String searchRoute = '/search';
   static const String doctorDetailRoute = '/doctor/detail';
   static const String bookingConfirmationRoute = '/doctor/booking-confirmation';
   
@@ -44,6 +46,9 @@ class RouteGenerator {
 
       // case homeRoute: // ✅ Add this case
       //   return MaterialPageRoute(builder: (_) => BottomNavScreen(w));
+
+      case searchRoute:
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
 
       case doctorDetailRoute:
         final args = settings.arguments as Map<String, dynamic>? ?? {};

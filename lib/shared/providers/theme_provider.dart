@@ -35,7 +35,7 @@ class ThemeProvider with ChangeNotifier {
 
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.white,
+    scaffoldBackgroundColor: AppColors.primaryColor,
     primaryColor: AppColors.buttonColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.white,

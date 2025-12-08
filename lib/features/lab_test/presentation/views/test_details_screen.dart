@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
 
 import 'booking_screen.dart';
 
@@ -29,6 +30,7 @@ class _TestDetailsScreenState extends State<TestDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.testName),
+        backgroundColor: AppColors.primaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

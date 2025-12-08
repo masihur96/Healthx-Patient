@@ -87,6 +87,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -105,7 +106,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Find a Doc tor',
+                    'Find a Doctor',
                     style: TextStyle(
                         fontSize: screenSize(context, .05),
                         fontWeight: FontWeight.w600),

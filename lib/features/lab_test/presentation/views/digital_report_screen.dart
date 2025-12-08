@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
 
 class DigitalReportScreen extends StatelessWidget {
   const DigitalReportScreen({super.key});
@@ -13,6 +14,7 @@ class DigitalReportScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
         title: const Text('Digital Reports'),
         leading: IconButton(
             onPressed: () {

@@ -17,8 +17,16 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
 
   List<String> get _timeSlots {
     return const [
-      '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM',
-      '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM',
+      '09:00 AM',
+      '09:30 AM',
+      '10:00 AM',
+      '10:30 AM',
+      '11:00 AM',
+      '02:00 PM',
+      '02:30 PM',
+      '03:00 PM',
+      '03:30 PM',
+      '04:00 PM',
     ];
   }
 
@@ -26,7 +34,16 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   Widget build(BuildContext context) {
     final d = widget.doctor;
     return Scaffold(
-      appBar: AppBar(title: Text(d['name'] ?? 'Doctor Detail')),
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: Text(d['name'] ?? 'Doctor Detail'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_outlined),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         child: Column(
@@ -65,7 +82,10 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                           },
                         );
                       },
-                child: const Text('Book Appointment'),
+                child: const Text(
+                  'Book Appointment',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ],
@@ -98,7 +118,9 @@ class _ProfileHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(d['name'] ?? '', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                  Text(d['name'] ?? '',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 4),
                   Text(d['specialty'] ?? ''),
                   const SizedBox(height: 4),
@@ -112,9 +134,11 @@ class _ProfileHeader extends StatelessWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
+                      const Icon(Icons.star_rounded,
+                          color: Colors.amber, size: 18),
                       const SizedBox(width: 4),
-                      Text('${d['rating'] ?? 0} (${d['reviews'] ?? 0} reviews)'),
+                      Text(
+                          '${d['rating'] ?? 0} (${d['reviews'] ?? 0} reviews)'),
                     ],
                   ),
                 ],
@@ -141,7 +165,8 @@ class _AboutSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('About', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            const Text('About',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             Text('Experience: ${d['experience'] ?? ''}'),
             const SizedBox(height: 6),
@@ -181,7 +206,8 @@ class _AvailabilitySection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Availability', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            const Text('Availability',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
             const SizedBox(height: 12),
             SizedBox(
               height: 56,
@@ -191,7 +217,9 @@ class _AvailabilitySection extends StatelessWidget {
                 separatorBuilder: (_, __) => const SizedBox(width: 8),
                 itemBuilder: (context, i) {
                   final dt = days[i];
-                  final selected = dt.day == selectedDate.day && dt.month == selectedDate.month && dt.year == selectedDate.year;
+                  final selected = dt.day == selectedDate.day &&
+                      dt.month == selectedDate.month &&
+                      dt.year == selectedDate.year;
                   return ChoiceChip(
                     label: Text('${dt.day}/${dt.month}'),
                     selected: selected,

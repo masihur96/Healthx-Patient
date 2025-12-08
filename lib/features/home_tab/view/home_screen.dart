@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthx_patient/configs/custom_size.dart';
 import 'package:healthx_patient/configs/custom_theme.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/appointment/presentation/views/appointment_screen.dart';
 import 'package:healthx_patient/features/auth/data/models/auth_user.dart';
 import 'package:healthx_patient/features/doctor/presentation/views/doctor_screen.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
+import 'package:healthx_patient/features/home_tab/view/search_screen.dart';
 import 'package:healthx_patient/features/lab_test/presentation/views/lab_test_screen.dart';
 import 'package:healthx_patient/features/medicine/presentation/views/medicine_screen.dart';
 import 'package:healthx_patient/shared/app_snackbar.dart';
@@ -24,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final auth = AuthUser(); // Replace with Provider later
 
     return Scaffold(
+      backgroundColor: AppColors.primaryColor,
       // KEEPING YOUR OLD APPBAR
       body: SingleChildScrollView(
         child: Padding(
@@ -384,8 +387,8 @@ class _HomeScreenState extends State<HomeScreen> {
           const Spacer(),
           IconButton(
             onPressed: () {
-              // Navigator.push(
-              //     context, MaterialPageRoute(builder: (_) => SearchScreen()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => SearchScreen()));
             },
             icon: Icon(Icons.search_outlined, size: 28),
           ),
