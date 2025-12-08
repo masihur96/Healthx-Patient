@@ -1,4 +1,5 @@
 // import 'dart:async';
+//
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 //
@@ -223,7 +224,8 @@
 //           final drug = drugs[index];
 //           return Card(
 //             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+//             shape:
+//                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 //             elevation: .5,
 //             child: Stack(
 //               children: [

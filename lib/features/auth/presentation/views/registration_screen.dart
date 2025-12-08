@@ -373,6 +373,11 @@ class _RegistrationScreenState extends State<RegistrationScreen>
                           if (authVM.isLoading) return;
                           if (_agreedToTerms) {
                             _register(authVM, context);
+                          } else {
+                            AppSnackBar.show(
+                              context,
+                              message: "Please agree to the terms & conditions",
+                            );
                           }
                         },
                         title: 'Sign Up',
