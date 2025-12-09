@@ -6,6 +6,7 @@ import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/appointment/presentation/views/appointment_screen.dart';
 import 'package:healthx_patient/features/auth/data/models/auth_user.dart';
 import 'package:healthx_patient/features/doctor/presentation/views/doctor_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/active_plan_screen.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 import 'package:healthx_patient/features/home_tab/view/search_screen.dart';
 import 'package:healthx_patient/features/lab_test/presentation/views/lab_test_screen.dart';
@@ -120,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       {"title": "Lab Test", "icon": Icons.biotech_outlined},
       {"title": "Medicine", "icon": Icons.local_pharmacy_outlined},
       {"title": "Health Plans", "icon": Icons.health_and_safety_outlined},
+      {"title": "Active Plans", "icon": Icons.check_circle_outline},
       {"title": "Appointments", "icon": Icons.calendar_month_outlined},
     ];
 
@@ -173,6 +175,15 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             if (i == 4) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => ActivePlanScreen(
+                          isForm: true,
+                        )),
+              );
+            }
+            if (i == 5) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => AppointmentScreen()),

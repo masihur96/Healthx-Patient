@@ -9,6 +9,7 @@ import 'package:healthx_patient/features/auth/presentation/views/login_screen.da
 import 'package:healthx_patient/features/auth/presentation/views/privacy_policy_screen.dart';
 import 'package:healthx_patient/features/auth/presentation/views/terms_condition_screen.dart';
 import 'package:healthx_patient/features/doctor/presentation/views/doctor_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/active_plan_screen.dart';
 import 'package:healthx_patient/features/home_tab/bottom_nav_screen.dart';
 import 'package:healthx_patient/features/home_tab/doctor_setting_screen.dart';
 import 'package:healthx_patient/features/lab_test/presentation/views/lab_test_screen.dart';
@@ -173,6 +174,20 @@ class _DrawerScreenState extends State<DrawerScreen>
                                 isForm: true,
                               ),
                             ),
+                          );
+                        },
+                      ),
+                      menuBtn(
+                        menuIcon: const Icon(Icons.check_circle_outline),
+                        name: "Active plan",
+                        onTap: () async {
+                          HapticFeedback.selectionClick();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ActivePlanScreen(
+                                      isForm: true,
+                                    )),
                           );
                         },
                       ),
