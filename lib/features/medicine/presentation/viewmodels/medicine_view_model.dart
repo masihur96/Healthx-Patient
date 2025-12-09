@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:medicare_doctor/features/medicine/data/models/medication_model.dart';
+// import 'package:medicare_doctor/features/medicine/data/models/health_plan_model.dart';
 // import 'package:medicare_doctor/features/medicine/data/services/medicine_service.dart';
 //
 // class MedicineViewModel extends ChangeNotifier {

@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:healthx_patient/features/medicine/data/models/medication_model.dart';
+// import 'package:healthx_patient/features/medicine/data/models/health_plan_model.dart';
 // import 'package:healthx_patient/shared/app_snackbar.dart';
 //
 // import 'medicine_search_screen.dart';

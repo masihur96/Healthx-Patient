@@ -5,7 +5,7 @@
 // import 'package:medicare_doctor/features/home_tab/model/complaint_model.dart';
 // import 'package:medicare_doctor/features/home_tab/model/diagonosis_model.dart';
 // import 'package:medicare_doctor/features/home_tab/model/investigation_model.dart';
-// import 'package:medicare_doctor/features/home_tab/model/medication_model.dart';
+// import 'package:medicare_doctor/features/home_tab/model/health_plan_model.dart';
 // import 'package:medicare_doctor/shared/pref_key.dart';
 //
 // class RXRepository {

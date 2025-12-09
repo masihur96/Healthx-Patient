@@ -2,7 +2,7 @@
 // import 'package:medicare_doctor/core/constants/apis.dart';
 // import 'package:medicare_doctor/core/utils/storage_service.dart';
 // import 'package:medicare_doctor/features/auth/data/models/auth_token_model.dart';
-// import 'package:medicare_doctor/features/medicine/data/models/medication_model.dart';
+// import 'package:medicare_doctor/features/medicine/data/models/health_plan_model.dart';
 //
 // class MedicineService {
 //   final DataProvider _dataProvider = DataProvider();

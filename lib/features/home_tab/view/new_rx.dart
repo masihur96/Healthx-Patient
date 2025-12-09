@@ -7,7 +7,7 @@
 // import 'package:medicare_doctor/features/home_tab/model/complaint_model.dart';
 // import 'package:medicare_doctor/features/home_tab/model/diagonosis_model.dart';
 // import 'package:medicare_doctor/features/home_tab/model/investigation_model.dart';
-// import 'package:medicare_doctor/features/home_tab/model/medication_model.dart';
+// import 'package:medicare_doctor/features/home_tab/model/health_plan_model.dart';
 // import 'package:medicare_doctor/features/home_tab/repository/rx_repository.dart';
 // import 'package:medicare_doctor/features/home_tab/view/complain_details.dart';
 // import 'package:medicare_doctor/features/patient/data/models/patient_model.dart';
