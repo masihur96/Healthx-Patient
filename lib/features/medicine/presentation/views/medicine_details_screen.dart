@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
 
+import '../../../doctor/presentation/views/cart_scope.dart';
 import '../../../doctor/presentation/views/cart_screen.dart';
 import 'medicine_models.dart';
 
 class MedicineDetailsScreen extends StatefulWidget {
   final Medicine medicine;
-  const MedicineDetailsScreen({super.key, required this.medicine});
+  final CartState cart;
+  const MedicineDetailsScreen(
+      {super.key, required this.medicine, required this.cart});
 
   @override
   State<MedicineDetailsScreen> createState() => _MedicineDetailsScreenState();
@@ -18,6 +22,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
         title: const Text('Medicine Details'),
         leading: IconButton(
             onPressed: () {
@@ -102,10 +107,14 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                 ElevatedButton.icon(
                   onPressed: widget.medicine.inStock
                       ? () {
-                          // cart.add(m, qty: qty);
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   SnackBar(content: Text('${m.name} added to cart')),
-                          // );
+                          widget.cart.add(widget.medicine, qty: qty);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                                  Text('${widget.medicine.name} added to cart'),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
                         }
                       : null,
                   icon:
@@ -121,7 +130,12 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
             TextButton.icon(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const CartScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => CartScope(
+                      notifier: widget.cart,
+                      child: const CartScreen(),
+                    ),
+                  ),
                 );
               },
               icon: const Icon(Icons.shopping_cart_checkout),

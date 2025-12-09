@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
 
 import '../../../medicine/presentation/views/medicine_models.dart';
 import 'cart_scope.dart';
@@ -16,7 +17,18 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final cart = CartScope.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Cart')),
+      appBar: AppBar(
+        title: const Text('Your Cart'),
+        backgroundColor: AppColors.primaryColor,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_outlined,
+          ),
+        ),
+      ),
       body: AnimatedBuilder(
         animation: cart,
         builder: (context, _) {
@@ -32,7 +44,10 @@ class _CartScreenState extends State<CartScreen> {
                   const SizedBox(height: 12),
                   OutlinedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Add More Medicines'),
+                    child: const Text(
+                      'Add More Medicines',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -75,7 +90,7 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w600)),
                         const Spacer(),
-                        Text('\$${cart.totalPrice.toStringAsFixed(2)}',
+                        Text('৳${cart.totalPrice.toStringAsFixed(2)}',
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                       ],
@@ -85,7 +100,10 @@ class _CartScreenState extends State<CartScreen> {
                       children: [
                         OutlinedButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Add More Medicines'),
+                          child: const Text(
+                            'Add More Medicines',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -96,7 +114,10 @@ class _CartScreenState extends State<CartScreen> {
                                     builder: (_) => const CheckoutScreen()),
                               );
                             },
-                            child: const Text('Proceed to Checkout'),
+                            child: const Text(
+                              'Proceed to Checkout',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ],
@@ -132,7 +153,7 @@ class _CartItemTile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(m.imageUrl,
+            child: Image.asset("assets/images/medicine.jpg",
                 width: 64, height: 64, fit: BoxFit.cover),
           ),
           const SizedBox(width: 12),
@@ -149,7 +170,7 @@ class _CartItemTile extends StatelessWidget {
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodySmall?.color)),
                 const SizedBox(height: 6),
-                Text('\$${m.price.toStringAsFixed(2)}',
+                Text('৳${m.price.toStringAsFixed(2)}',
                     style: const TextStyle(fontWeight: FontWeight.w600)),
               ],
             ),

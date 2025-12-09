@@ -5,6 +5,7 @@ import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/features/home_tab/drawer_screen.dart';
 
 import '../../../doctor/presentation/views/cart_screen.dart';
+import '../../../doctor/presentation/views/cart_scope.dart';
 import 'medicine_details_screen.dart';
 import 'medicine_models.dart';
 
@@ -80,7 +81,12 @@ class _MedicineScreenState extends State<MedicineScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const CartScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => CartScope(
+                              notifier: _cart,
+                              child: const CartScreen(),
+                            ),
+                          ),
                         );
                       },
                       child: Stack(
@@ -216,7 +222,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>
-                                    MedicineDetailsScreen(medicine: m),
+                                    MedicineDetailsScreen(medicine: m, cart: _cart),
                               ),
                             );
                           },

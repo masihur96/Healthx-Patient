@@ -93,6 +93,7 @@ class _RegistrationScreenState extends State<RegistrationScreen>
     // final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

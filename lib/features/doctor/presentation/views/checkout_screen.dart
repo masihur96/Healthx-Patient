@@ -58,14 +58,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     contentPadding: EdgeInsets.zero,
                     title: Text(i.medicine.name, maxLines: 1, overflow: TextOverflow.ellipsis),
                     subtitle: Text('Qty: ${i.quantity}'),
-                    trailing: Text('\$${(i.medicine.price * i.quantity).toStringAsFixed(2)}'),
+                    trailing: Text('৳${(i.medicine.price * i.quantity).toStringAsFixed(2)}'),
                   )),
               const Divider(height: 24),
               Row(
                 children: [
                   const Text('Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   const Spacer(),
-                  Text('\$${cart.totalPrice.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text('৳${cart.totalPrice.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: 16),
