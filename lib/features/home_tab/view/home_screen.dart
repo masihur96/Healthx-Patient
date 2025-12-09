@@ -13,6 +13,8 @@ import 'package:healthx_patient/features/medicine/presentation/views/medicine_sc
 import 'package:healthx_patient/shared/app_snackbar.dart';
 import 'package:healthx_patient/shared/avater_widget.dart';
 
+import '../../health_plan/presentation/views/health_plan_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -165,10 +167,10 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             if (i == 3) {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (_) => Health()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => HealthPlanScreen()),
+              );
             }
             if (i == 4) {
               Navigator.push(

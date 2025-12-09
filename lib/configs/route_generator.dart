@@ -12,6 +12,12 @@ import 'package:healthx_patient/features/appointment/presentation/views/appointm
 import 'package:healthx_patient/features/appointment/presentation/views/appointment_management_screen.dart';
 import 'package:healthx_patient/features/appointment/data/models/appointment_model.dart';
 import 'package:healthx_patient/features/home_tab/view/search_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/health_plan_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/health_plan_detail_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/subscription_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/active_plan_screen.dart';
+import 'package:healthx_patient/features/health_plan/presentation/views/benefits_tracking_screen.dart';
+import 'package:healthx_patient/features/health_plan/data/models/health_plan_model.dart';
 
 class RouteGenerator {
   static const String loginRoute = '/login';
@@ -30,6 +36,13 @@ class RouteGenerator {
   static const String appointmentConfirmationRoute = '/appointments/confirmation';
   static const String appointmentSuccessRoute = '/appointments/success';
   static const String appointmentManagementRoute = '/appointments/management';
+
+  // Health Plan routes
+  static const String healthPlanRoute = '/health-plans';
+  static const String healthPlanDetailRoute = '/health-plans/detail';
+  static const String subscriptionRoute = '/health-plans/subscription';
+  static const String activePlanRoute = '/health-plans/active';
+  static const String benefitsTrackingRoute = '/health-plans/benefits';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -91,6 +104,32 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => AppointmentManagementScreen(appointment: appointment),
         );
+
+      // Health Plan routes
+      case healthPlanRoute:
+        return MaterialPageRoute(builder: (_) => const HealthPlanScreen());
+
+      case healthPlanDetailRoute:
+        final plan = settings.arguments as HealthPlan;
+        return MaterialPageRoute(
+          builder: (_) => HealthPlanDetailScreen(plan: plan),
+        );
+
+      case subscriptionRoute:
+        final plan = settings.arguments as HealthPlan;
+        return MaterialPageRoute(
+          builder: (_) => SubscriptionScreen(plan: plan),
+        );
+
+      case activePlanRoute:
+        return MaterialPageRoute(builder: (_) => const ActivePlanScreen());
+
+      case benefitsTrackingRoute:
+        final plan = settings.arguments as HealthPlan;
+        return MaterialPageRoute(
+          builder: (_) => BenefitsTrackingScreen(plan: plan),
+        );
+
 
       default:
         return MaterialPageRoute(builder: (_) => SplashScreen());

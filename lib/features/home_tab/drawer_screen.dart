@@ -16,6 +16,8 @@ import 'package:healthx_patient/features/medicine/presentation/views/medicine_sc
 import 'package:healthx_patient/shared/avater_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../health_plan/presentation/views/health_plan_screen.dart';
+
 final ZoomDrawerController z = ZoomDrawerController();
 
 class DrawerScreen extends StatefulWidget {
@@ -178,12 +180,12 @@ class _DrawerScreenState extends State<DrawerScreen>
                         menuIcon: const Icon(Icons.calendar_month_outlined),
                         name: "Health plan",
                         onTap: () async {
-                          // HapticFeedback.selectionClick();
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (_) => AppointmentRequestScreen(),
-                          //   ),
-                          // );
+                          HapticFeedback.selectionClick();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => HealthPlanScreen()),
+                          );
                         },
                       ),
                       menuBtn(
