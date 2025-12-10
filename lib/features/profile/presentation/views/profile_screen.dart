@@ -337,7 +337,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             Text(
-                              languageProvider.isBangla ? "লিঙ্গ" : "Gender",
+                              "Gender",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Provider.of<ThemeProvider>(context)
@@ -365,9 +365,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             Text(
-                              languageProvider.isBangla
-                                  ? "জন্ম তারিখ"
-                                  : "Date of Birth",
+                              "Date of Birth",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Provider.of<ThemeProvider>(context)
@@ -411,9 +409,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             // }
                           },
                           child: Text(
-                            languageProvider.isBangla
-                                ? "প্রোফাইল সম্পাদনা"
-                                : "Edit Profile",
+                            "Edit Profile",
                             style: TextStyle(color: Colors.white),
                           )),
                     ),
@@ -440,9 +436,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             );
                           },
-                          child: Text(languageProvider.isBangla
-                              ? "সেটিংস"
-                              : "Settings")),
+                          child: Text("Settings")),
                     ),
                   ],
                 ),
@@ -452,9 +446,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.shopping_basket_outlined),
-                  title: Text(languageProvider.isBangla
-                      ? "আমার অর্ডারসমূহ"
-                      : "My Orders"),
+                  title: Text("My Orders"),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -468,8 +460,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.question_answer_outlined),
-                  title:
-                      Text(languageProvider.isBangla ? "প্রশ্নোত্তর" : "FAQ"),
+                  title: Text("FAQ"),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -483,9 +474,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.rule_outlined),
-                  title: Text(languageProvider.isBangla
-                      ? "ফেরত ও রিফান্ড নীতি"
-                      : "Return & Refund Policy"),
+                  title: Text("Return & Refund Policy"),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -496,54 +485,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // Handle promo action
                   },
                 ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: Text(languageProvider.isBangla ? "লগ আউট" : 'Logout'),
-                  onTap: () async {
-                    final confirm = await showDialog<bool>(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(languageProvider.isBangla
-                              ? "নিশ্চিতকরণ"
-                              : "Confirmation"),
-                          content: Text(languageProvider.isBangla
-                              ? "আপনি কি লগ আউট করতে চান?"
-                              : "Are you sure you want to logout?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: Text(languageProvider.isBangla
-                                  ? "বাতিল"
-                                  : "Cancel"),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                              ),
-                              onPressed: () => Navigator.pop(context, true),
-                              child: Text(
-                                languageProvider.isBangla ? "লগ আউট" : "Logout",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-
-                    if (confirm == true) {
-                      // await authVM.logout();
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (_) => HomePage(initialIndex: 0),
-                      //   ),
-                      // );
-                    }
-                  },
-                )
               ],
             ),
           ),

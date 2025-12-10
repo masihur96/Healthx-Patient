@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthx_patient/configs/app_localizations.dart';
+import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:healthx_patient/shared/providers/language_provider.dart';
 import 'package:healthx_patient/shared/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -89,9 +90,7 @@ class MyApp extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle(
-                  statusBarColor: theme.brightness == Brightness.dark
-                      ? Colors.transparent
-                      : Colors.white,
+                  statusBarColor: AppColors.primaryColor,
                   statusBarIconBrightness: theme.brightness == Brightness.dark
                       ? Brightness.light
                       : Brightness.dark,

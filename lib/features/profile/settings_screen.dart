@@ -64,34 +64,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final languageProvider = Provider.of<LanguageProvider>(context);
 
     return Scaffold(
+      backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: const Icon(Icons.arrow_back_ios),
+            child: const Icon(Icons.arrow_back_ios_outlined),
           ),
         ),
-        title: Text(languageProvider.isBangla ? "সেটিংস" : "Settings"),
+        title: Text("Settings"),
         centerTitle: true,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _sectionTitle(languageProvider.isBangla ? "ভাষা" : "Language"),
+          _sectionTitle("Language"),
           _languageSetting(languageProvider),
 
           const SizedBox(height: 16),
-          _sectionTitle(languageProvider.isBangla ? "থিম" : "Theme"),
+          _sectionTitle("Theme"),
           _themeSetting(languageProvider),
 
           //Change Password
           const SizedBox(height: 16),
-          _sectionTitle(languageProvider.isBangla
-              ? "পাসওয়ার্ড পরিবর্তন করুন"
-              : "Change Password"),
+          _sectionTitle("Change Password"),
           _changePasswordWidget(languageProvider),
 
           // _themeSetting(localizations),
@@ -125,10 +125,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Card(
       child: ListTile(
         leading: const Icon(Icons.language),
-        title: Text(languageProvider.isBangla ? "ভাষা" : "Language"),
-        subtitle: Text(languageProvider.isBangla
-            ? "আপনার পছন্দের ভাষা নির্বাচন করুন"
-            : "Select your preferred language"),
+        title: Text("Language"),
+        subtitle: Text("Select your preferred language"),
         trailing: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             icon: Icon(Icons.chevron_right),
@@ -156,10 +154,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: SwitchListTile(
         activeColor: AppColors.buttonColor,
         inactiveThumbColor: AppColors.black,
-        title: Text(languageProvider.isBangla ? "থিম" : "Theme"),
-        subtitle: Text(languageProvider.isBangla
-            ? "লাইট এবং ডার্ক থিমের মধ্যে পরিবর্তন করুন"
-            : "Switch between light and dark theme"),
+        title: Text("Theme"),
+        subtitle: Text("Switch between light and dark theme"),
         secondary: const Icon(Icons.dark_mode),
         value: _isDarkMode,
         onChanged: (value) async {
@@ -326,9 +322,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const Icon(Icons.lock),
                   const SizedBox(width: 8),
                   Text(
-                    languageProvider.isBangla
-                        ? "পাসওয়ার্ড পরিবর্তন"
-                        : "Change Password",
+                    "Change Password",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -340,9 +334,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 controller: _currentPasswordController,
                 obscureText: _obscureCurrentPassword,
                 decoration: InputDecoration(
-                  labelText: languageProvider.isBangla
-                      ? "বর্তমান পাসওয়ার্ড"
-                      : "Current Password",
+                  labelText: "Current Password",
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -372,9 +364,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 controller: _newPasswordController,
                 obscureText: _obscureNewPassword,
                 decoration: InputDecoration(
-                  labelText: languageProvider.isBangla
-                      ? "নতুন পাসওয়ার্ড"
-                      : "New Password",
+                  labelText: "New Password",
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -407,9 +397,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirmPassword,
                 decoration: InputDecoration(
-                  labelText: languageProvider.isBangla
-                      ? "নতুন পাসওয়ার্ড নিশ্চিত করুন"
-                      : "Confirm New Password",
+                  labelText: "Confirm New Password",
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -470,9 +458,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         // //   ),
                         // // ),
                         child: Text(
-                          languageProvider.isBangla
-                              ? "পাসওয়ার্ড পরিবর্তন"
-                              : "Change Password",
+                          "Change Password",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

@@ -11,9 +11,9 @@ import 'package:healthx_patient/features/auth/presentation/views/terms_condition
 import 'package:healthx_patient/features/doctor/presentation/views/doctor_screen.dart';
 import 'package:healthx_patient/features/health_plan/presentation/views/active_plan_screen.dart';
 import 'package:healthx_patient/features/home_tab/bottom_nav_screen.dart';
-import 'package:healthx_patient/features/home_tab/doctor_setting_screen.dart';
 import 'package:healthx_patient/features/lab_test/presentation/views/lab_test_screen.dart';
 import 'package:healthx_patient/features/medicine/presentation/views/medicine_screen.dart';
+import 'package:healthx_patient/features/profile/settings_screen.dart';
 import 'package:healthx_patient/shared/avater_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -229,7 +229,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                           HapticFeedback.selectionClick();
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => DoctorSettingsScreen(),
+                              builder: (_) => SettingsScreen(),
                             ),
                           );
                         },
