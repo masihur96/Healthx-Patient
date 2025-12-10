@@ -111,7 +111,10 @@ class _CartScreenState extends State<CartScreen> {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (_) => const CheckoutScreen()),
+                                    builder: (_) => CartScope(
+                                          notifier: cart,
+                                          child: const CheckoutScreen(),
+                                        )),
                               );
                             },
                             child: const Text(
