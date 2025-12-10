@@ -21,7 +21,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
   final CartState _cart = CartState();
   final TextEditingController _searchCtrl = TextEditingController();
   String _query = '';
-  String? _selectedCategory;
+  String? _selectedCategory;  
 
   @override
   void initState() {
