@@ -17,7 +17,9 @@ class LabBookingConfirmationScreen extends StatelessWidget {
       appBar: AppBar(
           backgroundColor: AppColors.primaryColor,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.arrow_back_ios_outlined,
             ),
@@ -45,17 +47,8 @@ class LabBookingConfirmationScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'View Booking Details',
-                  style: TextStyle(color: AppColors.white),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
+
+
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(

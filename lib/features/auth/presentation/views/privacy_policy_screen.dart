@@ -11,7 +11,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0.5,
         foregroundColor: Colors.black,
-        leading: const BackButton(),
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back_ios_outlined)),
       ),
       backgroundColor: Colors.grey.shade100,
       body: Padding(

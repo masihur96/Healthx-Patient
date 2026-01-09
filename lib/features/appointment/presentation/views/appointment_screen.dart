@@ -244,6 +244,17 @@ class _AppointmentList extends StatelessWidget {
               );
             },
             onReschedule: () async {
+              final result = await Navigator.of(context).pushNamed(
+                RouteGenerator.datetimeSelectionRoute,
+                arguments: {
+                  'appointment': appointment,
+                  'isReschedule': true,
+                },
+              );
+
+              if (result == true && context.mounted) {
+                Navigator.of(context).pop(true);
+              }
               // final viewModel = context.read<AppointmentViewModel>();
               // viewModel.selectProvider(null); // Will need to fetch provider
               // viewModel.selectDate(appointment.date);

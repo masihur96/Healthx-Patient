@@ -89,7 +89,9 @@ class _AppointmentConfirmationScreenState
     return ChangeNotifierProvider.value(
       value: _viewModel,
       child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
         appBar: AppBar(
+          backgroundColor: AppColors.primaryColor,
           title: Text(
               _isReschedule ? 'Confirm Reschedule' : 'Confirm Appointment'),
           leading: IconButton(

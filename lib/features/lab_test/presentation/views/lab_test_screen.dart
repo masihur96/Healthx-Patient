@@ -202,7 +202,7 @@ class _LabTestScreenState extends State<LabTestScreen> {
         Expanded(
           child: _QuickActionCard(
             emoji: '🔬',
-            title: 'Book a Test',
+            title: 'Test',
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -240,7 +240,7 @@ class _LabTestScreenState extends State<LabTestScreen> {
         Expanded(
           child: _QuickActionCard(
             emoji: '📁',
-            title: 'View Reports',
+            title: 'Reports',
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const DigitalReportScreen()),

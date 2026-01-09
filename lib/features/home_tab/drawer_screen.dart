@@ -203,13 +203,13 @@ class _DrawerScreenState extends State<DrawerScreen>
                           );
                         },
                       ),
-                      menuBtn(
-                        menuIcon: const Icon(Icons.message_outlined),
-                        name: "Schedule",
-                        onTap: () async {
-                          HapticFeedback.selectionClick();
-                        },
-                      ),
+                      // menuBtn(
+                      //   menuIcon: const Icon(Icons.message_outlined),
+                      //   name: "Schedule",
+                      //   onTap: () async {
+                      //     HapticFeedback.selectionClick();
+                      //   },
+                      // ),
                       menuBtn(
                         menuIcon: const Icon(Icons.headphones),
                         name: "Help & Support",

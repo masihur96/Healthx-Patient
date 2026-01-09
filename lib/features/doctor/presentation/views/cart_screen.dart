@@ -45,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
                   OutlinedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: const Text(
-                      'Add More Medicines',
+                      'Add More',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -101,7 +101,7 @@ class _CartScreenState extends State<CartScreen> {
                         OutlinedButton(
                           onPressed: () => Navigator.of(context).pop(),
                           child: const Text(
-                            'Add More Medicines',
+                            'Add More',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -118,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                               );
                             },
                             child: const Text(
-                              'Proceed to Checkout',
+                              'Checkout',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),

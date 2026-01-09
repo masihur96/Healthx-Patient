@@ -147,9 +147,9 @@ class _HealthPlanScreenState extends State<HealthPlanScreen>
                 unselectedLabelColor: Colors.black87,
                 onTap: (_) => setState(() {}),
                 tabs: const [
-                  _TabItem(text: 'All Plans'),
-                  _TabItem(text: 'My Plans'),
-                  _TabItem(text: 'Expired Plans'),
+                  _TabItem(text: 'All'),
+                  _TabItem(text: 'My'),
+                  _TabItem(text: 'Expired'),
                 ],
               ),
 

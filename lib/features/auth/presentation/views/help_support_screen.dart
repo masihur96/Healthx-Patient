@@ -65,50 +65,6 @@ class HelpSupportDoctorScreen extends StatelessWidget {
             subtitle: 'Reach out to platform administrators',
           ),
           const SizedBox(height: 24),
-
-          // 🙋‍♂️ Still need help?
-          const Text(
-            "Still need help?",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: Implement chat support
-                  },
-                  icon: const Icon(Icons.chat_bubble_outline,color: Colors.white),
-                  label: const Text("Live Chat",style: TextStyle(color: Colors.white),),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade700,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    // TODO: Implement email support
-                  },
-                  icon: const Icon(Icons.email_outlined),
-                  label: const Text("Email Us"),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    side: BorderSide(color: Colors.grey.shade400),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
