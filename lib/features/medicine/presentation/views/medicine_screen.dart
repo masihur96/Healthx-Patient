@@ -211,7 +211,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
                         crossAxisCount: crossAxisCount,
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
-                        childAspectRatio: 0.65,
+                        childAspectRatio: 0.62,
                       ),
                       itemCount: meds.length,
                       itemBuilder: (context, index) {

@@ -392,36 +392,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            // final result = await Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (_) => EditProfileScreen(
-                            //             userProfile: userProfile!)));
-                            //
-                            // // Refresh profile data if edit was successful
-                            // if (result == true) {
-                            //   await getUser();
-                            // }
-                          },
-                          child: Text(
-                            "Edit Profile",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: ElevatedButton(
+                //           onPressed: () async {
+                //             // final result = await Navigator.push(
+                //             //     context,
+                //             //     MaterialPageRoute(
+                //             //         builder: (_) => EditProfileScreen(
+                //             //             userProfile: userProfile!)));
+                //             //
+                //             // // Refresh profile data if edit was successful
+                //             // if (result == true) {
+                //             //   await getUser();
+                //             // }
+                //           },
+                //           child: Text(
+                //             "Edit Profile",
+                //             style: TextStyle(color: Colors.white),
+                //           )),
+                //     ),
+                //   ],
+                // ),
                 Row(
                   children: [
                     Expanded(
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.black26,
+                            backgroundColor: Colors.blueAccent,
                             side: const BorderSide(
                               // border style
                               color: Colors.white30,
