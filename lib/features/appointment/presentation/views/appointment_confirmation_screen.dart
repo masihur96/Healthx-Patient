@@ -5,6 +5,7 @@ import 'package:healthx_patient/core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/appointment_model.dart';
+import '../../data/models/provider_model.dart' as model;
 import '../viewmodels/appointment_viewmodel.dart';
 import '../widgets/appointment_summary_widget.dart';
 
@@ -34,6 +35,35 @@ class _AppointmentConfirmationScreenState
     if (widget.arguments != null) {
       _isReschedule = widget.arguments!['isReschedule'] ?? false;
       _existingAppointment = widget.arguments!['appointment'];
+      
+      // If we have a provider in arguments, select it
+      if (widget.arguments!['provider'] != null) {
+        _viewModel.selectProvider(widget.arguments!['provider']);
+      }
+      if (widget.arguments!['date'] != null) {
+        _viewModel.selectDate(widget.arguments!['date']);
+      }
+      if (widget.arguments!['time'] != null) {
+        _viewModel.selectTime(widget.arguments!['time']);
+      }
+    } else {
+      // Provide dummy data if no arguments
+      final dummyProvider = model.Provider(
+        id: 'dummy_1',
+        name: 'Dr. John Doe',
+        specialty: 'Cardiologist',
+        photo: 'https://via.placeholder.com/150',
+        experience: 10,
+        rating: 4.8,
+        reviewCount: 120,
+        type: AppointmentType.doctor,
+        location: 'New York, USA',
+        fee: 100.0,
+        hospital: 'City General Hospital',
+      );
+      _viewModel.selectProvider(dummyProvider);
+      _viewModel.selectDate(DateTime.now().add(const Duration(days: 1)));
+      _viewModel.selectTime('10:00 AM');
     }
   }
 
@@ -46,40 +76,62 @@ class _AppointmentConfirmationScreenState
   Future<void> _confirmAppointment() async {
     setState(() => _isProcessing = true);
 
-    if (_isReschedule && _existingAppointment != null) {
-      // Reschedule existing appointment
-      final success = await _viewModel.rescheduleAppointment(
-        _existingAppointment!.id,
-        _viewModel.selectedDate!,
-        _viewModel.selectedTime!,
-      );
+    try {
+      if (_isReschedule && _existingAppointment != null) {
+        // Reschedule existing appointment
+        final updatedAppointment = await _viewModel.rescheduleAppointment(
+          _existingAppointment!.id,
+          _viewModel.selectedDate!,
+          _viewModel.selectedTime!,
+        );
 
-      setState(() => _isProcessing = false);
+        if (updatedAppointment != null && mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            RouteGenerator.appointmentSuccessRoute,
+            (route) =>
+                route.settings.name == RouteGenerator.appointmentHomeRoute,
+            arguments: {
+              'isReschedule': true,
+              'appointment': updatedAppointment,
+              'appointmentId': updatedAppointment.appointmentId,
+            },
+          );
+        } else if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(_viewModel.errorMessage ?? 'Reschedule failed')),
+          );
+        }
+      } else {
+        // Create new appointment
+        final appointment = await _viewModel.createAppointment();
 
-      if (success && mounted) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          RouteGenerator.appointmentSuccessRoute,
-          (route) => route.settings.name == RouteGenerator.appointmentHomeRoute,
-          arguments: {
-            'isReschedule': true,
-            'appointmentId': _existingAppointment!.appointmentId,
-          },
+        if (appointment != null && mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            RouteGenerator.appointmentSuccessRoute,
+            (route) =>
+                route.settings.name == RouteGenerator.appointmentHomeRoute,
+            arguments: {
+              'appointment': appointment,
+            },
+          );
+        } else if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content:
+                    Text(_viewModel.errorMessage ?? 'Booking failed')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An error occurred: $e')),
         );
       }
-    } else {
-      // Create new appointment
-      final appointment = await _viewModel.createAppointment();
-
-      setState(() => _isProcessing = false);
-
-      if (appointment != null && mounted) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          RouteGenerator.appointmentSuccessRoute,
-          (route) => route.settings.name == RouteGenerator.appointmentHomeRoute,
-          arguments: {
-            'appointment': appointment,
-          },
-        );
+    } finally {
+      if (mounted) {
+        setState(() => _isProcessing = false);
       }
     }
   }
@@ -105,14 +157,9 @@ class _AppointmentConfirmationScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Appointment Summary (Mock data for now)
+              // Appointment Summary
               Consumer<AppointmentViewModel>(
                 builder: (context, viewModel, child) {
-                  if (viewModel.selectedProvider == null &&
-                      _existingAppointment == null) {
-                    return const Center(child: Text('No appointment data'));
-                  }
-
                   // Create temporary appointment for display
                   final tempAppointment = Appointment(
                     id: _existingAppointment?.id ?? 'temp',

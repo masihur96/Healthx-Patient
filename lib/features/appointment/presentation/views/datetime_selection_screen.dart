@@ -239,13 +239,15 @@ class _DateTimeSelectionScreenState extends State<DateTimeSelectionScreen> {
                               if (_isReschedule &&
                                   _existingAppointment != null) {
                                 // Handle reschedule
-                                Navigator.of(context).pushNamed(
-                                  RouteGenerator.appointmentConfirmationRoute,
-                                  arguments: {
-                                    'isReschedule': true,
-                                    'appointment': _existingAppointment,
-                                  },
-                                );
+                                  Navigator.of(context).pushNamed(
+                                    RouteGenerator.appointmentConfirmationRoute,
+                                    arguments: {
+                                      'isReschedule': true,
+                                      'appointment': _existingAppointment,
+                                      'date': viewModel.selectedDate,
+                                      'time': viewModel.selectedTime,
+                                    },
+                                  );
                               } else {
                                 // New appointment
                                 Navigator.of(context).pushNamed(

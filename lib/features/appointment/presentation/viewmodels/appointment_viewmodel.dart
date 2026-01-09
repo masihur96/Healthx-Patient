@@ -222,14 +222,14 @@ class AppointmentViewModel extends ChangeNotifier {
   }
 
   // Reschedule appointment
-  Future<bool> rescheduleAppointment(
+  Future<Appointment?> rescheduleAppointment(
     String appointmentId,
     DateTime newDate,
     String newTime,
   ) async {
     _setState(AppointmentViewState.loading);
     try {
-      await _appointmentService.rescheduleAppointment(
+      final updatedAppointment = await _appointmentService.rescheduleAppointment(
         appointmentId: appointmentId,
         newDate: newDate,
         newTime: newTime,
@@ -239,11 +239,11 @@ class AppointmentViewModel extends ChangeNotifier {
       await fetchAppointments();
 
       _setState(AppointmentViewState.success);
-      return true;
+      return updatedAppointment;
     } catch (e) {
       _errorMessage = e.toString();
       _setState(AppointmentViewState.error);
-      return false;
+      return null;
     }
   }
 

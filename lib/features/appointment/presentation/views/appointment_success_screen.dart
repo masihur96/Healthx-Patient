@@ -135,74 +135,74 @@ class _AppointmentSuccessScreenState extends State<AppointmentSuccessScreen>
                   ),
                 ),
               ),
-            const SizedBox(height: 20),
-            // Actions
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(
-                      Icons.calendar_today,
-                      color: AppColors.buttonColor,
-                    ),
-                    title: const Text('Add to Calendar'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      // Show calendar options
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Add to Calendar'),
-                          content: const Text(
-                            'This feature will export the appointment to your device calendar.',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  const Divider(height: 1),
-                  SwitchListTile(
-                    value: _setReminder,
-                    onChanged: (value) {
-                      setState(() => _setReminder = value);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            value
-                                ? 'Reminder has been set for this appointment'
-                                : 'Reminder has been removed',
-                          ),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                    },
-                    secondary: const Icon(
-                      Icons.notifications_active,
-                      color: AppColors.buttonColor,
-                    ),
-                    title: const Text('Set Reminder'),
-                    subtitle: const Text('Get notified before appointment'),
-                  ),
-                ],
-              ),
-            ),
+            // const SizedBox(height: 20),
+            // // Actions
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: AppColors.white,
+            //     borderRadius: BorderRadius.circular(16),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.black.withOpacity(0.05),
+            //         blurRadius: 8,
+            //         offset: const Offset(0, 3),
+            //       ),
+            //     ],
+            //   ),
+            //   child: Column(
+            //     children: [
+            //       ListTile(
+            //         leading: const Icon(
+            //           Icons.calendar_today,
+            //           color: AppColors.buttonColor,
+            //         ),
+            //         title: const Text('Add to Calendar'),
+            //         trailing: const Icon(Icons.chevron_right),
+            //         onTap: () {
+            //           // Show calendar options
+            //           showDialog(
+            //             context: context,
+            //             builder: (context) => AlertDialog(
+            //               title: const Text('Add to Calendar'),
+            //               content: const Text(
+            //                 'This feature will export the appointment to your device calendar.',
+            //               ),
+            //               actions: [
+            //                 TextButton(
+            //                   onPressed: () => Navigator.pop(context),
+            //                   child: const Text('OK'),
+            //                 ),
+            //               ],
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //       const Divider(height: 1),
+            //       SwitchListTile(
+            //         value: _setReminder,
+            //         onChanged: (value) {
+            //           setState(() => _setReminder = value);
+            //           ScaffoldMessenger.of(context).showSnackBar(
+            //             SnackBar(
+            //               content: Text(
+            //                 value
+            //                     ? 'Reminder has been set for this appointment'
+            //                     : 'Reminder has been removed',
+            //               ),
+            //               duration: const Duration(seconds: 2),
+            //             ),
+            //           );
+            //         },
+            //         secondary: const Icon(
+            //           Icons.notifications_active,
+            //           color: AppColors.buttonColor,
+            //         ),
+            //         title: const Text('Set Reminder'),
+            //         subtitle: const Text('Get notified before appointment'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(height: 24),
             // Go to Appointments Button
             SizedBox(
@@ -227,25 +227,6 @@ class _AppointmentSuccessScreenState extends State<AppointmentSuccessScreen>
               ),
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    RouteGenerator.homeRoute,
-                    (route) => false,
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  side: const BorderSide(color: AppColors.buttonColor),
-                ),
-                child: const Text(
-                  'Back to Home',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
           ],
         ),
       ),
