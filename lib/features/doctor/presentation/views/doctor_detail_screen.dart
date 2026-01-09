@@ -108,10 +108,11 @@ class _ProfileHeader extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 36,
-              backgroundColor: Colors.grey.shade300,
-              child: const Icon(Icons.person, color: Colors.white, size: 36),
+            Image.asset(
+              "assets/images/onboarding_preview1.png",
+              height: 100,
+              width: 80,
+              fit: BoxFit.cover,
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -162,17 +163,24 @@ class _AboutSection extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            const Text('About',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            Text('Experience: ${d['experience'] ?? ''}'),
-            const SizedBox(height: 6),
-            const Text('Education: MBBS, FCPS (Sample)'),
-            const SizedBox(height: 6),
-            const Text('Languages: English, Bangla'),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('About',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 8),
+                  Text('Experience: ${d['experience'] ?? ''}'),
+                  const SizedBox(height: 6),
+                  const Text('Education: MBBS, FCPS (Sample)'),
+                  const SizedBox(height: 6),
+                  const Text('Languages: English, Bangla'),
+                ],
+              ),
+            ),
           ],
         ),
       ),

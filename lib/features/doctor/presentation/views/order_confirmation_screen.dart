@@ -39,18 +39,6 @@ class OrderConfirmationScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // Placeholder for tracking page
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Tracking page coming soon')),
-                  );
-                },
-                child: Text(
-                  'Track Order',
-                  style: TextStyle(color: AppColors.primaryColor),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (_) => const MedicineScreen(
@@ -59,8 +47,11 @@ class OrderConfirmationScreen extends StatelessWidget {
                     (route) => false,
                   );
                 },
-                child: const Text('Continue Shopping'),
-              )
+                child: Text(
+                  'Continue Shopping',
+                  style: TextStyle(color: AppColors.primaryColor),
+                ),
+              ),
             ],
           ),
         ),

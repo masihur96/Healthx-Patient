@@ -149,7 +149,7 @@ class _CartItemTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Colors.grey.shade400),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

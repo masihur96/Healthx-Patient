@@ -145,18 +145,6 @@ class _DoctorScreenState extends State<DoctorScreen> {
                   onChanged: (_) => setState(() {}),
                 ),
               ),
-              _QuickFilters(
-                specialties: _specialties,
-                selectedSpecialty: _selectedSpecialty,
-                onSpecialtyChanged: (v) =>
-                    setState(() => _selectedSpecialty = v),
-                availability: _selectedAvailability,
-                onAvailabilityChanged: (v) =>
-                    setState(() => _selectedAvailability = v),
-                type: _selectedType,
-                onTypeChanged: (v) => setState(() => _selectedType = v),
-              ),
-              const SizedBox(height: 12),
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(
@@ -248,7 +236,10 @@ class _DoctorScreenState extends State<DoctorScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Apply Filters'),
+                  child: Text(
+                    'Apply Filters',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],
@@ -287,116 +278,6 @@ class _SearchBar extends StatelessWidget {
           borderSide: const BorderSide(color: AppColors.buttonColor),
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 14),
-      ),
-    );
-  }
-}
-
-class _QuickFilters extends StatelessWidget {
-  final List<String> specialties;
-  final String selectedSpecialty;
-  final ValueChanged<String> onSpecialtyChanged;
-  final String availability;
-  final ValueChanged<String> onAvailabilityChanged;
-  final String type;
-  final ValueChanged<String> onTypeChanged;
-
-  const _QuickFilters({
-    required this.specialties,
-    required this.selectedSpecialty,
-    required this.onSpecialtyChanged,
-    required this.availability,
-    required this.onAvailabilityChanged,
-    required this.type,
-    required this.onTypeChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _Chip(
-            label: selectedSpecialty,
-            leading: Icons.local_hospital,
-            onTap: () async {
-              final v = await showMenu<String>(
-                context: context,
-                position: const RelativeRect.fromLTRB(100, 150, 16, 0),
-                items: specialties
-                    .map((e) => PopupMenuItem<String>(value: e, child: Text(e)))
-                    .toList(),
-              );
-              if (v != null) onSpecialtyChanged(v);
-            },
-          ),
-          const SizedBox(width: 8),
-          _Chip(
-            label: availability,
-            leading: Icons.event_available,
-            onTap: () async {
-              final v = await showMenu<String>(
-                context: context,
-                position: const RelativeRect.fromLTRB(100, 150, 16, 0),
-                items: const [
-                  PopupMenuItem(value: 'Today', child: Text('Today')),
-                  PopupMenuItem(value: 'Tomorrow', child: Text('Tomorrow')),
-                  PopupMenuItem(value: 'This Week', child: Text('This Week')),
-                ],
-              );
-              if (v != null) onAvailabilityChanged(v);
-            },
-          ),
-          const SizedBox(width: 8),
-          _Chip(
-            label: type,
-            leading: Icons.video_call_rounded,
-            onTap: () async {
-              final v = await showMenu<String>(
-                context: context,
-                position: const RelativeRect.fromLTRB(100, 150, 16, 0),
-                items: const [
-                  PopupMenuItem(value: 'Online', child: Text('Online')),
-                  PopupMenuItem(value: 'In-person', child: Text('In-person')),
-                ],
-              );
-              if (v != null) onTypeChanged(v);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  final String label;
-  final IconData leading;
-  final VoidCallback onTap;
-  const _Chip(
-      {required this.label, required this.leading, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(24),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(24),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
-            children: [
-              Icon(leading, size: 18),
-              const SizedBox(width: 6),
-              Text(label),
-              const SizedBox(width: 4),
-              const Icon(Icons.arrow_drop_down, size: 18),
-            ],
-          ),
-        ),
       ),
     );
   }
